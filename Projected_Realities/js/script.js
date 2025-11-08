@@ -18,6 +18,8 @@ This script:
 let video;
 let poseNet;
 let poses = [];
+// let hands = [];
+
 
 // --- Setup (runs once at start) ---
 function setup() {
@@ -25,19 +27,37 @@ function setup() {
     createCanvas(800, 500);
 
     // Access webcam
-    video = createCapture(VIDEO);
-    video.size(width, height);
+    video = createCapture(video);
+    video.size(800, 500);
+    //video.size(width, height);  
     video.hide(); // Hide raw webcam feed (optional)
 
     // Load PoseNet model
     poseNet = ml5.poseNet(video, modelReady);
-
     // Listen for poses
     poseNet.on("pose", gotPoses);
+
+    // //Load Handpose
+    // handpose = ml5.handpose(video, modelReadyHandPose);
+    // handpose.on("predict", gothands);
+
 
     textAlign(CENTER);
     textSize(16);
     console.log("Setup complete — waiting for PoseNet model...");
+}
+// Smoothing factor (0 = no smoothing, 1 = full smoothing)
+let smooth = 0.7;
+let smoothedPose = {};
+
+function smoothPoint(name, newX, newY) {
+    if (!smoothedPose[name]) {
+        smoothedPose[name] = { x: newX, y: newY };
+    } else {
+        smoothedPose[name].x = lerp(smoothedPose[name].x, newX, smooth);
+        smoothedPose[name].y = lerp(smoothedPose[name].y, newY, smooth);
+    }
+    return smoothedPose[name];
 }
 
 // --- PoseNet callback when ready ---
@@ -45,12 +65,21 @@ function modelReady() {
     console.log("✅ PoseNet model loaded!");
 }
 
+// function modelReadyHandpose() {
+//     console.log("🖐️ Handpose model loaded!");
+// }
+
+// ---CALLBACKS--- //
 // --- When PoseNet finds poses, this function is called ---
 function gotPoses(results) {
     poses = results;
     if (poses.length > 0) {
         // Take first detected person
         let pose = poses[0].pose;
+
+        // function gotHands(results) {
+        //     hands = results;
+        // }
 
         // You can print this to explore what info PoseNet gives:
         // console.log(pose);
@@ -83,13 +112,15 @@ function draw() {
     image(video, 0, 0, width, height);
 
     // Draw detected keypoints + skeleton
-    drawKeypoints();
+
     drawSkeleton();
+    drawKeypoints();
+    // drawHands();
 
     // Optional: text overlay
     fill(255);
     noStroke();
-    text("PoseNet active — move to see detection", width / 2, height - 20);
+    text("PoseNet + Handpose active", width / 2, height - 20);
 }
 
 // --- Draw keypoints (joints) ---
@@ -119,6 +150,24 @@ function drawSkeleton() {
         }
     }
 }
+
+// // Hands //
+
+// function drawHands() {
+//     for (let i = 0; i < hand.leght; i++) {
+//         const hand = hands[i];
+//         const landmarks = hand.landmarks;
+//         for (let j = 0; j < landmarks.lenght; j++) {
+//             const [x, y, z] = landmarks[j];
+
+//             fill(0, 255, 255);
+//             noStroke();
+//             ellipse(x, y, 8, 8)
+//                 ;
+//         }
+//     }
+
+// }
 
 
 
