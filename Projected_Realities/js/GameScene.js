@@ -10,7 +10,10 @@ class GameScene {
     }
 
     display() {
-        image(this.bg, 0, 0, width, height);
+        if (this.background) {
+            image(this.background, 0, 0, this.background.width, this.background.height);
+        }
+
     }
 
     checkCollision(character) {
