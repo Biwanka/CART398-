@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projected Character</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+        }
+
+        canvas {
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        let socket;
+        let poseData = [];
+
+        function setup() {
+            createCanvas(800, 500);
+            socket = new WebSocket("ws://localhost:8081");
+
+            socket.onopen = () => console.log("✅ Connected to OSC bridge");
+            socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.address === "/poseData") poseData = data.args.map(a => a.value);
+            };
+        }
+
+        function draw() {
+            background(10);
+            fill(255, 100, 150);
+            noStroke();
+
+            // Example: visualize wrists as circles
+            if (poseData.length === 6) {
+                let [noseX, noseY, lwX, lwY, rwX, rwY] = poseData.map(v => v * width);
+                ellipse(lwX, lwY, 30);
+                ellipse(rwX, rwY, 30);
+                ellipse(noseX, noseY, 20);
+            }
+
+            fill(255);
+            textAlign(CENTER);
+            textSize(16);
+            text("Projection View (Receiving Data)", width / 2, 30);
+        }
+    </script>
+</body>
+
+</html>
+
+<!-- ✅ How it works:
+
+This connects to the same Node bridge on port 8081.
+
+It listens for /poseData just like Max does.
+
+It visualizes the coordinates as moving shapes or can control your character animation later.
+
+💡 You can open this display.html on another computer (connected via Tailscale or same Wi-Fi) or another browser window
+on a second monitor — it will still receive the live data. -->

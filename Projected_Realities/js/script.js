@@ -28,6 +28,10 @@ let gameScene;
 function setup() {
     createCanvas(800, 500);
     video = createCapture(VIDEO);
+    //use the code in the green when i connect a webcame, therefore it will use the camera
+    //of the webcame and not the cimputer one from the browser
+    // video = createCapture({ video: { deviceId: "your_camera_id" } });
+
     video.size(width, height);
     video.hide();
 
@@ -49,6 +53,8 @@ function modelReady() {
 
 function gotPoses(results) {
     poses = results;
+    console.log("Detected poses:", poses.length);
+
     if (poses.length > 0) {
         let pose = poses[0].pose;
         let nose = pose.keypoints.find(p => p.part === "nose");
@@ -75,6 +81,10 @@ function draw() {
     image(video, 0, 0, width, height);
     gameScene.display();
 
+    drawKeypoints();
+    drawSkeleton();
+
+
     // Update and draw character
     myCharacter.update(currentPoseLabel);
     myCharacter.display();
@@ -84,6 +94,35 @@ function draw() {
 function onPoseLabelReceived(label) {
     currentPoseLabel = label;
     myCharacter.changeAnimation(label);
+}
+
+//------------------------------------------------------------
+// Visualize PoseNet keypoints + skeleton
+//------------------------------------------------------------
+function drawKeypoints() {
+    for (let i = 0; i < poses.length; i++) {
+        const pose = poses[i].pose;
+        for (let j = 0; j < pose.keypoints.length; j++) {
+            const keypoint = pose.keypoints[j];
+            if (keypoint.score > 0.3) {
+                fill(255, 150, 200);
+                noStroke();
+                ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
+            }
+        }
+    }
+}
+
+function drawSkeleton() {
+    for (let i = 0; i < poses.length; i++) {
+        const skeleton = poses[i].skeleton;
+        for (let j = 0; j < skeleton.length; j++) {
+            const partA = skeleton[j][0];
+            const partB = skeleton[j][1];
+            stroke(255, 100, 200);
+            line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+        }
+    }
 }
 
 
