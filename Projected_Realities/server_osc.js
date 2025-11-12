@@ -1,6 +1,12 @@
 //------------------------------------------------------------
 // server_osc.js — Simpler version using node-osc
 //------------------------------------------------------------
+
+// npm install ws node - osc
+// node server_osc.js
+
+
+
 const WebSocket = require("ws");
 const osc = require("node-osc");
 
