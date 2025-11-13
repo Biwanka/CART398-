@@ -53,7 +53,7 @@ function sendPoseDataToMax(poseArray) {
 
 
 
-
+//
 // Expose functions globally (so older code can call them)
 // (They are defined as named functions above; nothing extra needed.)
 // Example usage in your p5 script:

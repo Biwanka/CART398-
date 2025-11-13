@@ -27,7 +27,7 @@ const oscServer = new osc.Server(UDP_FROM_MAX, UDP_HOST, () => {
     console.log(`📡 Listening for OSC from Max on udp://${UDP_HOST}:${UDP_FROM_MAX}`);
 });
 
-// Browser → Max
+//Browser → Max
 
 wss.on("connection", (ws) => {
     console.log("🟢 Browser connected via WebSocket");
@@ -37,6 +37,7 @@ wss.on("connection", (ws) => {
             const data = JSON.parse(msg);
             console.log("🌐 Received from browser:", data);
             if (data.address && data.args) {
+                console.log("📤 Sending to Max:", data.address, data.args);
                 oscClient.send(data.address, ...data.args);
             }
         } catch (err) {
@@ -44,18 +45,6 @@ wss.on("connection", (ws) => {
         }
     });
 
-    // Browser → Max
-    ws.on("message", (msg) => {
-        try {
-            const data = JSON.parse(msg);
-            if (data.address && data.args) {
-                console.log("📤 Sending to Max:", data.address, data.args); // 👈 Add this
-                oscClient.send(data.address, ...data.args);
-            }
-        } catch (err) {
-            console.error("⚠️ Invalid WebSocket message:", err);
-        }
-    });
 
     // Max → Browser
 
@@ -116,7 +105,18 @@ wss.on("connection", (ws) => {
 
 
 
-
+// // Browser → Max
+// ws.on("message", (msg) => {
+//     try {
+//         const data = JSON.parse(msg);
+//         if (data.address && data.args) {
+//             console.log("📤 Sending to Max:", data.address, data.args); // 👈 Add this
+//             oscClient.send(data.address, ...data.args);
+//         }
+//     } catch (err) {
+//         console.error("⚠️ Invalid WebSocket message:", err);
+//     }
+// });
 
 
 
