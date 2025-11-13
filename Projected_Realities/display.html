@@ -2,10 +2,61 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8" />
+    <title>Character Projection</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="js/Character.js"></script>
+</head>
+
+<body>
+
+    <script>
+        let socket, poseLabel = "idle", myCharacter;
+
+        function setup() {
+            createCanvas(800, 600);
+            myCharacter = new Character(width / 2, height / 2);
+
+            socket = new WebSocket("ws://localhost:8081");
+            socket.onopen = () => console.log("✅ Connected to OSC bridge");
+            socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.address === "/poseLabel") {
+                    poseLabel = data.args[0];
+                    myCharacter.changePose(poseLabel);
+                }
+            };
+        }
+
+        function draw() {
+            background(0);
+            myCharacter.update();
+            myCharacter.display();
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projected Character</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
+    <script src="js/Character.js"></script>
+    <script src="js/GameScene.js"></script>
     <style>
         body {
             margin: 0;
@@ -57,7 +108,7 @@
     </script>
 </body>
 
-</html>
+</html> -->
 
 <!-- ✅ How it works:
 

@@ -3,36 +3,100 @@
 // ---------------------------------------------
 // Defines the animated character and reactions
 // ---------------------------------------------
+// Character.js
+//------------------------------------------------------------
+// Character.js — receives pose label & animates sprite
+//------------------------------------------------------------
 
 class Character {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.state = "idle"; // current animation
+        this.currentAnimation = "idle";
+        this.animations = {
+            idle: [loadImage("assets/idle1.png")],
+            walk_left: [
+                loadImage("assets/walk_left1.png"),
+                loadImage("assets/walk_left2.png"),
+                loadImage("assets/walk_left3.png")
+            ],
+            walk_right: [
+                loadImage("assets/walk_right1.png"),
+                loadImage("assets/walk_right2.png"),
+                loadImage("assets/walk_right3.png")
+            ],
+            walk_front: [
+                loadImage("assets/walk_front1.png"),
+                loadImage("assets/walk_front2.png"),
+                loadImage("assets/walk_front3.png")
+            ],
+            walk_back: [
+                loadImage("assets/walk_back1.png"),
+                loadImage("assets/walk_back2.png"),
+                loadImage("assets/walk_back3.png")
+            ],
+            jump: [loadImage("assets/jump.png")],
+            crouch: [loadImage("assets/crouch.png")],
+            climb: [loadImage("assets/climb.png")]
+        };
+
+        this.frameIndex = 0;
+        this.frameDelay = 6;
+        this.frameCounter = 0;
     }
 
-    changeAnimation(label) {
-        // Called when Max sends a pose label
-        if (label === 0) this.state = "idle";
-        else if (label === 1) this.state = "walk";
-        else if (label === 2) this.state = "jump";
+    changePose(label) {
+        if (this.animations[label]) {
+            this.currentAnimation = label;
+            this.frameIndex = 0;
+            console.log("🧍 Character changed to:", label);
+        }
     }
 
     update() {
-        // You can add logic later like gravity or horizontal move
+        this.frameCounter++;
+        if (this.frameCounter > this.frameDelay) {
+            this.frameCounter = 0;
+            const frames = this.animations[this.currentAnimation];
+            this.frameIndex = (this.frameIndex + 1) % frames.length;
+        }
     }
 
     display() {
-        // Placeholder visuals until animations are integrated
-        noStroke();
-        fill(255, 180, 200);
-        ellipse(this.x, this.y, 40);
-        textAlign(CENTER);
-        textSize(14);
-        fill(255);
-        text(this.state, this.x, this.y - 30);
+        const currentFrame = this.animations[this.currentAnimation][this.frameIndex];
+        image(currentFrame, this.x, this.y);
     }
 }
+
+// class Character {
+//     constructor(x, y) {
+//         this.x = x;
+//         this.y = y;
+//         this.state = "idle"; // current animation
+//     }
+
+//     changeAnimation(label) {
+//         // Called when Max sends a pose label
+//         if (label === 0) this.state = "idle";
+//         else if (label === 1) this.state = "walk";
+//         else if (label === 2) this.state = "jump";
+//     }
+
+//     update() {
+//         // You can add logic later like gravity or horizontal move
+//     }
+
+//     display() {
+//         // Placeholder visuals until animations are integrated
+//         noStroke();
+//         fill(255, 180, 200);
+//         ellipse(this.x, this.y, 40);
+//         textAlign(CENTER);
+//         textSize(14);
+//         fill(255);
+//         text(this.state, this.x, this.y - 30);
+//     }
+// }
 
 
 

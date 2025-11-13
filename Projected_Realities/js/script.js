@@ -1,5 +1,11 @@
 
-"use strict";
+
+
+// From	         To	        Port	         Message	        Purpose
+// p5.js	    Node	8081(WebSocket)     /poseData	     Pose coordinates
+// Node	        Max	       9129(UDP)        /poseData	     Forward pose info
+// Max	        Node	   9130(UDP)      /poseLabel label	 Pose classification
+// Node	       p5.js	8081(WebSocket)   /poseLabel label	 Character animation
 
 
 /*
@@ -20,46 +26,80 @@ which relays it to Max via OSC.
 // PoseNet detection + connection with Max/MSP
 // ---------------------------------------------
 
-let video, poseNet, poses = [];
-let currentPoseLabel = "idle"; // received from Max
-let myCharacter;
-let gameScene;
+"use strict";
 
+/*
+----------------------------------------------------------
+PROJECTED REALITIES — PoseNet with OSC output
+Author: Bianca Gauthier
+----------------------------------------------------------
+Detects user poses using ml5.js PoseNet.
+Sends normalized body data to Node.js (via WebSocket),
+which relays it to Max via OSC.
+----------------------------------------------------------
+*/
+
+let video;
+let poseNet;
+let poses = [];
+let oscSocket; // ✅ renamed so it doesn’t conflict with bridge_osc.js
+
+// ----------------------------------------------------------
+// SETUP
+// ----------------------------------------------------------
 function setup() {
     createCanvas(800, 500);
-    video = createCapture(VIDEO);
-    //use the code in the green when i connect a webcame, therefore it will use the camera
-    //of the webcame and not the cimputer one from the browser
-    // video = createCapture({ video: { deviceId: "your_camera_id" } });
 
+    // Webcam feed
+    video = createCapture(VIDEO);
     video.size(width, height);
     video.hide();
 
-    // Initialize OSC connection
-    setupOSC();
-
-    // Initialize PoseNet
+    // PoseNet
     poseNet = ml5.poseNet(video, modelReady);
     poseNet.on("pose", gotPoses);
 
-    // Initialize GameScene and Character
-    gameScene = new GameScene();
-    myCharacter = new Character(width / 2, height - 100);
+    // WebSocket (→ Node.js)
+    setupWebSocket();
+    sendPoseDataToMax()
+
 }
 
+// ----------------------------------------------------------
+// INIT CONNECTIONS
+// ----------------------------------------------------------
 function modelReady() {
-    console.log("✅ PoseNet model loaded!");
+    console.log("✅ PoseNet loaded and active.");
 }
 
+function setupWebSocket() {
+    oscSocket = new WebSocket("ws://localhost:8081");
+    oscSocket.onopen = () => console.log("✅ Connected to OSC bridge");
+    oscSocket.onerror = (err) => console.error("❌ WebSocket error:", err);
+}
+
+// ----------------------------------------------------------
+// MAIN LOOP
+// ----------------------------------------------------------
+function draw() {
+    background(20);
+    image(video, 0, 0, width, height);
+
+    drawKeypoints();
+    drawSkeleton();
+}
+
+// ----------------------------------------------------------
+// POSE HANDLING
+// ----------------------------------------------------------
 function gotPoses(results) {
     poses = results;
-    console.log("Detected poses:", poses.length);
 
     if (poses.length > 0) {
         let pose = poses[0].pose;
-        let nose = pose.keypoints.find(p => p.part === "nose");
-        let leftWrist = pose.keypoints.find(p => p.part === "leftWrist");
-        let rightWrist = pose.keypoints.find(p => p.part === "rightWrist");
+        let nose = pose.keypoints.find((p) => p.part === "nose");
+        let leftWrist = pose.keypoints.find((p) => p.part === "leftWrist");
+        let rightWrist = pose.keypoints.find((p) => p.part === "rightWrist");
 
         if (nose && leftWrist && rightWrist) {
             let inputData = [
@@ -68,37 +108,32 @@ function gotPoses(results) {
                 leftWrist.position.x / width,
                 leftWrist.position.y / height,
                 rightWrist.position.x / width,
-                rightWrist.position.y / height
+                rightWrist.position.y / height,
             ];
 
+            console.log("📸 Pose data:", inputData);
             sendPoseDataToMax(inputData);
         }
     }
 }
 
-function draw() {
-    background(20, 20, 50);
-    image(video, 0, 0, width, height);
-    gameScene.display();
+// ----------------------------------------------------------
+// SENDING TO NODE
+// ----------------------------------------------------------
+function sendPoseDataToMax(poseArray) {
+    if (!oscSocket || oscSocket.readyState !== WebSocket.OPEN) return;
 
-    drawKeypoints();
-    drawSkeleton();
+    const msg = {
+        address: "/poseData",
+        args: poseArray.map((v) => ({ type: "f", value: v })),
+    };
 
-
-    // Update and draw character
-    myCharacter.update(currentPoseLabel);
-    myCharacter.display();
+    oscSocket.send(JSON.stringify(msg));
 }
 
-// Called when Max sends back a pose classification
-function onPoseLabelReceived(label) {
-    currentPoseLabel = label;
-    myCharacter.changeAnimation(label);
-}
-
-//------------------------------------------------------------
-// Visualize PoseNet keypoints + skeleton
-//------------------------------------------------------------
+// ----------------------------------------------------------
+// DRAW VISUALS
+// ----------------------------------------------------------
 function drawKeypoints() {
     for (let i = 0; i < poses.length; i++) {
         const pose = poses[i].pose;
@@ -124,6 +159,324 @@ function drawSkeleton() {
         }
     }
 }
+
+
+
+
+
+// import { setupOSC, sendPoseDataToMax } from "./bridge_osc.js";
+// import { Character } from "./Character.js";
+
+// let video, poseNet, poses = [];
+// let currentPoseLabel = "idle";
+// let myCharacter;
+// let animations = {};
+
+// // ----------------------------------------------------------
+// function preload() {
+//     // Load character frames
+//     animations["idle"] = [loadImage("assets/idle1.png")];
+//     animations["walk_left"] = [
+//         loadImage("assets/walk_left1.png"),
+//         loadImage("assets/walk_left2.png"),
+//         loadImage("assets/walk_left3.png"),
+//     ];
+//     animations["walk_right"] = [
+//         loadImage("assets/walk_right1.png"),
+//         loadImage("assets/walk_right2.png"),
+//         loadImage("assets/walk_right3.png"),
+//     ];
+//     animations["walk_front"] = [
+//         loadImage("assets/walk_front1.png"),
+//         loadImage("assets/walk_front2.png"),
+//         loadImage("assets/walk_front3.png"),
+//     ];
+//     animations["walk_back"] = [
+//         loadImage("assets/walk_back1.png"),
+//         loadImage("assets/walk_back2.png"),
+//         loadImage("assets/walk_back3.png"),
+//     ];
+//     animations["jump"] = [loadImage("assets/jump.png")];
+//     animations["crouch"] = [loadImage("assets/crouch.png")];
+//     animations["climb"] = [loadImage("assets/climb.png")];
+// }
+
+// // ----------------------------------------------------------
+// function setup() {
+//     createCanvas(800, 600);
+//     video = createCapture(VIDEO);
+//     video.size(width, height);
+//     video.hide();
+
+//     setupOSC();
+
+//     poseNet = ml5.poseNet(video, () => console.log("✅ PoseNet model loaded"));
+//     poseNet.on("pose", gotPoses);
+
+//     myCharacter = new Character(width / 2, height - 150, animations);
+
+//     // Listen for classification labels from Max
+//     window.addEventListener("poseLabelReceived", (e) => {
+//         currentPoseLabel = e.detail;
+//         myCharacter.changePose(e.detail);
+//     });
+// }
+
+// // ----------------------------------------------------------
+// function gotPoses(results) {
+//     poses = results;
+//     if (poses.length > 0) {
+//         let pose = poses[0].pose;
+//         let nose = pose.keypoints.find((p) => p.part === "nose");
+//         let lw = pose.keypoints.find((p) => p.part === "leftWrist");
+//         let rw = pose.keypoints.find((p) => p.part === "rightWrist");
+
+//         if (nose && lw && rw) {
+//             let inputData = [
+//                 nose.position.x / width,
+//                 nose.position.y / height,
+//                 lw.position.x / width,
+//                 lw.position.y / height,
+//                 rw.position.x / width,
+//                 rw.position.y / height,
+//             ];
+//             sendPoseDataToMax(inputData);
+//         }
+//     }
+// }
+
+// // ----------------------------------------------------------
+// function draw() {
+//     background(20);
+//     image(video, 0, 0, width, height);
+
+//     drawKeypoints();
+//     drawSkeleton();
+
+//     myCharacter.update();
+//     myCharacter.display(this);
+// }
+
+// // ----------------------------------------------------------
+// function drawKeypoints() {
+//     for (let i = 0; i < poses.length; i++) {
+//         const pose = poses[i].pose;
+//         for (let j = 0; j < pose.keypoints.length; j++) {
+//             const keypoint = pose.keypoints[j];
+//             if (keypoint.score > 0.3) {
+//                 fill(255, 150, 200);
+//                 noStroke();
+//                 ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
+//             }
+//         }
+//     }
+// }
+
+// function drawSkeleton() {
+//     for (let i = 0; i < poses.length; i++) {
+//         const skeleton = poses[i].skeleton;
+//         for (let j = 0; j < skeleton.length; j++) {
+//             const partA = skeleton[j][0];
+//             const partB = skeleton[j][1];
+//             stroke(255, 100, 200);
+//             line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+//         }
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let video, poseNet, poses = [];
+// let currentPoseLabel = "idle"; // received from Max
+// let myCharacter;
+// let gameScene;
+
+// import { setupOSC } from "./bridge_osc.js";
+// import { Character } from "./Character.js";
+
+// let character;
+// let animations = {};
+
+// function preload() {
+//     // Example: load 3 frames per animation
+//     animations["idle"] = [
+//         loadImage("assets/idle1.png"),
+//     ];
+
+//     animations["walk_left"] = [
+//         loadImage("assets/walk_left1.png"),
+//         loadImage("assets/walk_left2.png"),
+//         loadImage("assets/walk_left3.png")
+//     ];
+
+//     animations["walk_right"] = [
+//         loadImage("assets/walk_right1.png"),
+//         loadImage("assets/walk_right2.png"),
+//         loadImage("assets/walk_right3.png")
+//     ];
+
+//     animations["walk_front"] = [
+//         loadImage("assets/walk_front1.png"),
+//         loadImage("assets/walk_front2.png"),
+//         loadImage("assets/walk_front3.png")
+//     ];
+
+//     animations["walk_back"] = [
+//         loadImage("assets/walk_back1.png"),
+//         loadImage("assets/walk_back2.png"),
+//         loadImage("assets/walk_back3.png")
+//     ];
+
+//     // Optional poses:
+//     animations["jump"] = [loadImage("assets/jump.png")];
+//     animations["crouch"] = [loadImage("assets/crouch.png")];
+//     animations["climb"] = [loadImage("assets/climb.png")];
+// }
+
+// function setup() {
+//     createCanvas(800, 600);
+//     setupOSC();
+//     character = new Character(width / 2, height / 2, animations);
+// }
+
+// function draw() {
+//     background(220);
+//     character.update();
+//     character.display(this);
+// }
+
+
+// function setup() {
+//     createCanvas(800, 500);
+//     video = createCapture(VIDEO);
+//     //use the code in the green when i connect a webcame, therefore it will use the camera
+//     //of the webcame and not the cimputer one from the browser
+//     // video = createCapture({ video: { deviceId: "your_camera_id" } });
+
+//     video.size(width, height);
+//     video.hide();
+
+//     // Initialize OSC connection
+//     setupOSC();
+
+//     // Initialize PoseNet
+//     poseNet = ml5.poseNet(video, modelReady);
+//     poseNet.on("pose", gotPoses);
+
+//     // Initialize GameScene and Character
+//     gameScene = new GameScene();
+//     myCharacter = new Character(width / 2, height - 100);
+// }
+
+// function modelReady() {
+//     console.log("✅ PoseNet model loaded!");
+// }
+
+// function gotPoses(results) {
+//     poses = results;
+//     console.log("Detected poses:", poses.length);
+
+//     if (poses.length > 0) {
+//         let pose = poses[0].pose;
+//         let nose = pose.keypoints.find(p => p.part === "nose");
+//         let leftWrist = pose.keypoints.find(p => p.part === "leftWrist");
+//         let rightWrist = pose.keypoints.find(p => p.part === "rightWrist");
+
+//         if (nose && leftWrist && rightWrist) {
+//             let inputData = [
+//                 nose.position.x / width,
+//                 nose.position.y / height,
+//                 leftWrist.position.x / width,
+//                 leftWrist.position.y / height,
+//                 rightWrist.position.x / width,
+//                 rightWrist.position.y / height
+//             ];
+
+//             sendPoseDataToMax(inputData);
+//         }
+//     }
+// }
+
+// function draw() {
+//     background(20, 20, 50);
+//     image(video, 0, 0, width, height);
+//     gameScene.display();
+
+//     drawKeypoints();
+//     drawSkeleton();
+
+
+//     // Update and draw character
+//     myCharacter.update(currentPoseLabel);
+//     myCharacter.display();
+// }
+
+// // Called when Max sends back a pose classification
+// function onPoseLabelReceived(label) {
+//     currentPoseLabel = label;
+//     myCharacter.changeAnimation(label);
+// }
+
+// //------------------------------------------------------------
+// // Visualize PoseNet keypoints + skeleton
+// //------------------------------------------------------------
+// function drawKeypoints() {
+//     for (let i = 0; i < poses.length; i++) {
+//         const pose = poses[i].pose;
+//         for (let j = 0; j < pose.keypoints.length; j++) {
+//             const keypoint = pose.keypoints[j];
+//             if (keypoint.score > 0.3) {
+//                 fill(255, 150, 200);
+//                 noStroke();
+//                 ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
+//             }
+//         }
+//     }
+// }
+
+// function drawSkeleton() {
+//     for (let i = 0; i < poses.length; i++) {
+//         const skeleton = poses[i].skeleton;
+//         for (let j = 0; j < skeleton.length; j++) {
+//             const partA = skeleton[j][0];
+//             const partB = skeleton[j][1];
+//             stroke(255, 100, 200);
+//             line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+//         }
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // /*
