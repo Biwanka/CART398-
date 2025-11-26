@@ -13,27 +13,36 @@
 // ------------------------------------------------------------
 
 // bridge_osc.js — WebSocket bridge between p5.js and Node
+
+// bridge_osc.js — WebSocket bridge between p5.js and Node
 let socket;
 
 function setupWebSocket() {
     socket = new WebSocket("ws://localhost:8081");
 
-    socket.onopen = () => console.log("✅ WebSocket connected to Node bridge");
+    socket.onopen = () => console.log("✅ WebSocket connected");
     socket.onerror = (err) => console.error("❌ WebSocket error:", err);
 
     socket.onmessage = async (event) => {
         try {
             let data = event.data;
             if (data instanceof Blob) data = await data.text();
+
             const msg = JSON.parse(data);
 
-            if (msg.address === "/poseLabel" && msg.args.length > 0) {
+            // LISTEN FOR /predictpoint
+            if (msg.address === "/predictpoint" && msg.args.length > 0) {
                 const label = msg.args[0];
-                console.log("🎯 Received pose label:", label);
-                window.dispatchEvent(new CustomEvent("poseLabelReceived", { detail: label }));
+                console.log("🎯 Received pose prediction:", label);
+
+                // Notify p5.js
+                window.dispatchEvent(new CustomEvent("poseLabelReceived", {
+                    detail: label
+                }));
             }
+
         } catch (err) {
-            console.warn("⚠️ Failed to parse incoming OSC message:", err);
+            console.warn("⚠️ Could not parse OSC → WS message:", err);
         }
     };
 }
@@ -43,11 +52,67 @@ function sendPoseDataToMax(poseArray) {
 
     const msg = {
         address: "/poseData",
-        args: poseArray.map((v) => ({ type: "f", value: v })),
+        args: poseArray.map((v) => v)
     };
 
     socket.send(JSON.stringify(msg));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let socket;
+
+// function setupWebSocket() {
+//     socket = new WebSocket("ws://localhost:8081");
+
+//     socket.onopen = () => console.log("✅ WebSocket connected to Node bridge");
+//     socket.onerror = (err) => console.error("❌ WebSocket error:", err);
+
+//     socket.onmessage = async (event) => {
+//         try {
+//             let data = event.data;
+//             if (data instanceof Blob) data = await data.text();
+//             const msg = JSON.parse(data);
+
+//             if (msg.address === "/poseLabel" && msg.args.length > 0) {
+//                 const label = msg.args[0];
+//                 console.log("🎯 Received pose label:", label);
+//                 window.dispatchEvent(new CustomEvent("poseLabelReceived", { detail: label }));
+//             }
+//         } catch (err) {
+//             console.warn("⚠️ Failed to parse incoming OSC message:", err);
+//         }
+//     };
+// }
+
+// function sendPoseDataToMax(poseArray) {
+//     if (!socket || socket.readyState !== WebSocket.OPEN) return;
+
+//     const msg = {
+//         address: "/poseData",
+//         args: poseArray.map((v) => ({ type: "f", value: v })),
+//     };
+
+//     socket.send(JSON.stringify(msg));
+// }
 
 
 

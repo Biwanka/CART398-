@@ -6,6 +6,8 @@
     <title>Character Projection</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
     <script src="js/Character.js"></script>
+
+
 </head>
 
 <body>
@@ -19,21 +21,33 @@
 
             socket = new WebSocket("ws://localhost:8081");
             socket.onopen = () => console.log("✅ Connected to OSC bridge");
+
             socket.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-                if (data.address === "/poseLabel") {
+
+                if (data.address === "/predictpoint" || data.address === "predictpoint") {
                     poseLabel = data.args[0];
+                    console.log("🎯 Prediction received:", poseLabel);
                     myCharacter.changePose(poseLabel);
                 }
+
+
+
+                // if (data.address === "/predictpoint") {
+                //     poseLabel = data.args[0];
+                //     myCharacter.changePose(poseLabel);
+                // }
             };
         }
 
         function draw() {
             background(0);
-            myCharacter.update();
+            myCharacter.update(poseLabel);
             myCharacter.display();
         }
     </script>
+
+
 </body>
 
 </html>
