@@ -8,69 +8,34 @@
 // server_osc.js — Bidirectional OSC Bridge
 //------------------------------------------------------------
 
-
-
-//------------------------------------------------------------
-// server_osc.js — WebSocket ↔ OSC Bridge (Auto-Kill Version)
-//------------------------------------------------------------
-
-const { execSync } = require("child_process");
-
-// AUTO-KILL ANY PROCESS USING PORT 8081
-try {
-    const result = execSync(`netstat -ano | findstr :8081`).toString();
-    const pid = result.trim().split(/\s+/).pop();
-
-    if (!isNaN(pid)) {
-        console.log(`⚠️ Port 8081 busy — killing PID ${pid}...`);
-        execSync(`taskkill /PID ${pid} /F`);
-        console.log(`✅ Killed old process on port 8081.`);
-    }
-} catch (e) {
-    console.log("👍 Port 8081 is free.");
-}
-
-//------------------------------------------------------------
-// NORMAL SERVER STARTS HERE
-//------------------------------------------------------------
-
 const WebSocket = require("ws");
 const osc = require("node-osc");
 
-// PORTS (keep as-is)
-const WS_PORT = 8081;       // Browser WebSocket
-const UDP_TO_MAX = 9129;    // Send PoseNet → Max
-const UDP_FROM_MAX = 9130;  // Receive Prediction → Browser
+const WS_PORT = 8081;
+const UDP_TO_MAX = 9129;
+const UDP_FROM_MAX = 9130;
 const UDP_HOST = "127.0.0.1";
-
-//------------------------------------------------------------
-// WebSocket Server
-//------------------------------------------------------------
 
 const wss = new WebSocket.Server({ port: WS_PORT }, () => {
     console.log(`✅ WebSocket listening on ws://localhost:${WS_PORT}`);
 });
 
-//------------------------------------------------------------
-// OSC Setup
-//------------------------------------------------------------
+// OSC
 
 const oscClient = new osc.Client(UDP_HOST, UDP_TO_MAX);
 const oscServer = new osc.Server(UDP_FROM_MAX, UDP_HOST, () => {
     console.log(`📡 Listening for OSC from Max on udp://${UDP_HOST}:${UDP_FROM_MAX}`);
 });
 
-//------------------------------------------------------------
-// BROWSER → MAX
-//------------------------------------------------------------
+//Browser → Max
+
 wss.on("connection", (ws) => {
     console.log("🟢 Browser connected via WebSocket");
 
     ws.on("message", (msg) => {
         try {
             const data = JSON.parse(msg);
-            console.log("🌐 Received from Browser:", data);
-
+            console.log("🌐 Received from browser:", data);
             if (data.address && data.args) {
                 console.log("📤 Sending to Max:", data.address, data.args);
                 oscClient.send(data.address, ...data.args);
@@ -80,109 +45,19 @@ wss.on("connection", (ws) => {
         }
     });
 
-    //--------------------------------------------------------
-    // MAX → BROWSER
-    //--------------------------------------------------------
+
+    // Max → Browser
+
     oscServer.on("message", (msg) => {
         const address = msg[0];
         const args = msg.slice(1);
-
         console.log("🎧 Received from Max:", address, args);
-
-        ws.send(JSON.stringify({
-            address: address,
-            args: args
-        }));
+        const oscData = { address, args };
+        ws.send(JSON.stringify(oscData));
     });
 
     ws.on("close", () => console.log("🔴 Browser disconnected"));
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const WebSocket = require("ws");
-// const osc = require("node-osc");
-
-// const WS_PORT = 8081;
-// const UDP_TO_MAX = 9129;
-// const UDP_FROM_MAX = 9130;
-// const UDP_HOST = "127.0.0.1";
-
-// const wss = new WebSocket.Server({ port: WS_PORT }, () => {
-//     console.log(`✅ WebSocket listening on ws://localhost:${WS_PORT}`);
-// });
-
-// // OSC
-
-// const oscClient = new osc.Client(UDP_HOST, UDP_TO_MAX);
-// const oscServer = new osc.Server(UDP_FROM_MAX, UDP_HOST, () => {
-//     console.log(`📡 Listening for OSC from Max on udp://${UDP_HOST}:${UDP_FROM_MAX}`);
-// });
-
-// //Browser → Max
-
-// wss.on("connection", (ws) => {
-//     console.log("🟢 Browser connected via WebSocket");
-
-//     ws.on("message", (msg) => {
-//         try {
-//             const data = JSON.parse(msg);
-//             console.log("🌐 Received from browser:", data);
-//             if (data.address && data.args) {
-//                 console.log("📤 Sending to Max:", data.address, data.args);
-//                 oscClient.send(data.address, ...data.args);
-//             }
-//         } catch (err) {
-//             console.error("⚠️ Invalid WebSocket message:", err);
-//         }
-//     });
-
-
-//     // Max → Browser
-
-//     oscServer.on("message", (msg) => {
-//         const address = msg[0];
-//         const args = msg.slice(1);
-//         console.log("🎧 Received from Max:", address, args);
-//         const oscData = { address, args };
-//         ws.send(JSON.stringify(oscData));
-//     });
-
-//     ws.on("close", () => console.log("🔴 Browser disconnected"));
-// });
 
 
 

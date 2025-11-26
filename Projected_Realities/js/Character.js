@@ -8,23 +8,8 @@
 // Character.js — receives pose label & animates sprite
 //------------------------------------------------------------
 
-
 class Character {
     constructor(x, y) {
-
-
-        this.world = {
-            xMin: 0,
-            yMin: 0,
-            xMax: 800,
-            yMax: 1212
-        };
-
-
-        this.scale = 0.3; // adjust until she fits on your canvas
-        this.speed = 4; // adjust to taste
-
-
         this.x = x;
         this.y = y;
         this.currentAnimation = "idle";
@@ -56,9 +41,8 @@ class Character {
         };
 
         this.frameIndex = 0;
-        this.frameDelay = 3;
+        this.frameDelay = 6;
         this.frameCounter = 0;
-
     }
 
     changePose(label) {
@@ -69,32 +53,7 @@ class Character {
         }
     }
 
-    moveFromPose(label) {
-        const oldX = this.x;
-        const oldY = this.y;
-
-        switch (label) {
-            case "walk_left": this.x -= this.speed; break;
-            case "walk_right": this.x += this.speed; break;
-            case "walk_front": this.y += this.speed; break;
-            case "walk_back": this.y -= this.speed; break;
-        }
-
-        // block movement if outside world boundaries
-        if (this.x < this.world.xMin ||
-            this.x > this.world.xMax ||
-            this.y < this.world.yMin ||
-            this.y > this.world.yMax) {
-            this.x = oldX;
-            this.y = oldY;
-        }
-    }
-
-
-    update(label) {
-        this.moveFromPose(label);
-
-        // animation frame updates
+    update() {
         this.frameCounter++;
         if (this.frameCounter > this.frameDelay) {
             this.frameCounter = 0;
@@ -103,20 +62,11 @@ class Character {
         }
     }
 
-
     display() {
         const currentFrame = this.animations[this.currentAnimation][this.frameIndex];
-        image(
-            currentFrame,
-            this.x,
-            this.y,
-            currentFrame.width * this.scale,
-            currentFrame.height * this.scale
-        );
+        image(currentFrame, this.x, this.y);
     }
-
 }
-
 
 // class Character {
 //     constructor(x, y) {

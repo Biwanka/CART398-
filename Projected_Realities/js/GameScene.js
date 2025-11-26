@@ -1,30 +1,8 @@
 // js/GameScene.js
 class GameScene {
     constructor(bgImage) {
-        // this.world = {
-        //     xMin: 0,
-        //     yMin: 0,
-        //     xMax: 800,
-        //     yMax: 1212
-        // };
-
         this.bg = bgImage;
         this.blockZones = [];
-
-        this.obstacles = [
-            { x: 100, y: 200, w: 150, h: 300 },  // building 1
-            { x: 400, y: 100, w: 200, h: 200 },  // building 2
-
-        ];
-        for (let b of this.obstacles) {
-            if (this.x > b.x && this.x < b.x + b.w &&
-                this.y > b.y && this.y < b.y + b.h) {
-                this.x = oldX;
-                this.y = oldY;
-            }
-        }
-
-
     }
 
     addBlockZone(x, y, w, h) {
