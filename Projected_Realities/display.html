@@ -3,6 +3,161 @@
 
 <head>
     <meta charset="utf-8" />
+    <title>Magical Character Projection</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="js/Character.js"></script>
+    <script src="js/AudioEngine.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding-top: 40px;
+            background: white;
+        }
+
+        #startAudio {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 18px;
+            font-size: 16px;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="startAudio">Start Audio</button>
+
+    <script>
+        let socket, poseLabel = "idle", myCharacter, audioEngine;
+        let barriers = [];
+        let showBarriers = false;  // press B to toggle
+
+        function setup() {
+            const canvas = createCanvas(1000, 600);
+            canvas.parent(document.body);
+
+            /* CHARACTER START LEFT */
+            myCharacter = new Character(50, 215);
+            myCharacter.scale = 0.13;
+
+            /* INVISIBLE BARRIERS */
+            barriers = [
+                { x: 0, y: 357, w: 677, h: 24 },
+                { x: 0, y: 294, w: 682, h: 25 },
+                { x: 676, y: 279, w: 184, h: 189 },
+                { x: 3, y: 289, w: 445, h: 15 },
+                { x: 460, y: 464, w: 404, h: 19 },
+                { x: 398, y: 531, w: 472, h: 30 },
+                { x: 927, y: 397, w: 98, h: 27 },
+                { x: 734, y: 174, w: 269, h: 18 },
+                { x: 863, y: 454, w: 184, h: 38 },
+                { x: -4, y: -4, w: 1004, h: 11 },
+                { x: 0, y: 434, w: 376, h: 13 }
+            ];
+
+            /* AUDIO ENGINE */
+            audioEngine = new AudioEngine({
+                sampleUrl: "assets/sounds/moon_instrumental_sample.mp3",
+                sliceCount: 8
+            });
+
+            const startBtn = document.getElementById("startAudio");
+            startBtn.onclick = async () => {
+                await audioEngine.init();
+                if (audioEngine.ctx.state === "suspended") {
+                    await audioEngine.ctx.resume();
+                }
+                startBtn.style.display = "none";
+            };
+
+            /* OSC WEBSOCKET */
+            socket = new WebSocket("ws://localhost:8081");
+            socket.onopen = () => console.log("✅ Connected to OSC bridge");
+            socket.onmessage = e => {
+                const data = JSON.parse(e.data);
+                if (data.address === "/predictpoint" || data.address === "predictpoint") {
+                    poseLabel = data.args[0];
+                    myCharacter.changePose(poseLabel);
+                    audioEngine.playSlice(poseLabel);
+                }
+            };
+        }
+
+        /* COLLISION AGAINST BARRIERS */
+        function checkBarriers(x, y) {
+            for (let b of barriers) {
+                if (x > b.x && x < b.x + b.w &&
+                    y > b.y && y < b.y + b.h) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function draw() {
+            /* ⭐ LIGHT GREY BACKGROUND ⭐ */
+            background(100);
+
+            let prevX = myCharacter.x;
+            let prevY = myCharacter.y;
+
+            myCharacter.update(poseLabel);
+
+            /* Collision with barriers */
+            if (checkBarriers(myCharacter.x, myCharacter.y)) {
+                myCharacter.x = prevX;
+                myCharacter.y = prevY;
+            }
+
+            /* Keep character inside frame */
+            myCharacter.x = constrain(myCharacter.x, 50, width - 50);
+            myCharacter.y = constrain(myCharacter.y, 50, height - 50);
+
+            myCharacter.display();
+
+            /* Border */
+            stroke(0);
+            noFill();
+            rect(0, 0, width, height);
+
+            /* SHOW BARRIERS IF TOGGLED */
+            if (showBarriers) {
+                noStroke();
+                fill(255, 0, 0, 120);
+                for (let b of barriers) rect(b.x, b.y, b.w, b.h);
+            }
+
+            audioEngine.updateFromCharacter(
+                myCharacter.x / width,
+                myCharacter.y / height
+            );
+        }
+
+        /* ⭐ PRESS B TO TOGGLE BARRIERS ⭐ */
+        function keyPressed() {
+            if (key === "b" || key === "B") {
+                showBarriers = !showBarriers;
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
     <title>Character Projection</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
     <script src="js/Character.js"></script>
@@ -52,7 +207,7 @@
 
 </html>
 
-
+ -->
 
 
 

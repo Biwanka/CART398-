@@ -41,6 +41,12 @@ which relays it to Max via OSC.
 
 "use strict";
 
+
+
+
+
+
+
 let video;
 let poseNet;
 let poses = [];
@@ -50,34 +56,29 @@ let hands = [];
 
 let oscSocket;
 
-let cameraYOffset = -100; // initial camera offset
-let slider; // slider to control camera height
+const VIDEO_WIDTH = 1280;
+const VIDEO_HEIGHT = 720;
+const INFERENCE_FPS = 15; // process ~15 times per second
+let lastInference = 0;
 
-// -------------------------------  
+// -------------------------------
 function setup() {
-    createCanvas(1280, 720);
-
-    // Slider for camera offset
-    slider = createSlider(-300, 300, cameraYOffset, 1);
-    slider.position(20, height + 10);
-    slider.style('width', '200px');
+    createCanvas(VIDEO_WIDTH, VIDEO_HEIGHT);
 
     // Webcam
     video = createCapture({
-        video: { width: 1280, height: 720, facingMode: "user" }
+        video: { width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: "user" }
     });
-    video.size(width, height);
+    video.size(VIDEO_WIDTH, VIDEO_HEIGHT);
     video.hide();
 
     // PoseNet
     poseNet = ml5.poseNet(video, () => console.log("✅ PoseNet loaded"));
-    poseNet.on("pose", gotPoses);
+    poseNet.on("pose", results => poses = results);
 
     // Mediapipe Hands
     handposeModel = ml5.handpose(video, () => console.log("✅ Mediapipe Hands ready"));
-    handposeModel.on("predict", results => {
-        hands = results;
-    });
+    handposeModel.on("predict", results => hands = results);
 
     // OSC WebSocket
     setupWebSocket();
@@ -89,12 +90,7 @@ function setupWebSocket() {
     oscSocket.onerror = (err) => console.error("❌ WebSocket error:", err);
 }
 
-// -------------------------------  
-function gotPoses(results) {
-    poses = results;
-}
-
-// -------------------------------  
+// -------------------------------
 function sendDataToMax() {
     if (!oscSocket || oscSocket.readyState !== WebSocket.OPEN) return;
 
@@ -103,29 +99,19 @@ function sendDataToMax() {
     // PoseNet: nose + wrists + shoulders
     if (poses.length > 0) {
         const pose = poses[0].pose;
-        const nose = pose.keypoints.find(p => p.part === "nose");
-        const leftWrist = pose.keypoints.find(p => p.part === "leftWrist");
-        const rightWrist = pose.keypoints.find(p => p.part === "rightWrist");
-        const leftShoulder = pose.keypoints.find(p => p.part === "leftShoulder");
-        const rightShoulder = pose.keypoints.find(p => p.part === "rightShoulder");
-
-        if (nose && leftWrist && rightWrist && leftShoulder && rightShoulder) {
-            data.push(
-                nose.position.x / width, nose.position.y / height,
-                leftWrist.position.x / width, leftWrist.position.y / height,
-                rightWrist.position.x / width, rightWrist.position.y / height,
-                leftShoulder.position.x / width, leftShoulder.position.y / height,
-                rightShoulder.position.x / width, rightShoulder.position.y / height
-            );
-        } else data.push(...Array(10).fill(0));
+        const keypoints = ["nose", "leftWrist", "rightWrist", "leftShoulder", "rightShoulder"];
+        keypoints.forEach(part => {
+            const kp = pose.keypoints.find(p => p.part === part);
+            if (kp) data.push(kp.position.x / VIDEO_WIDTH, kp.position.y / VIDEO_HEIGHT);
+            else data.push(0, 0);
+        });
     } else data.push(...Array(10).fill(0));
 
     // Hands: first hand only
     if (hands.length > 0) {
         const hand = hands[0];
-        // landmarks array: 21 points × 2 = 42 floats
         for (const [x, y] of hand.landmarks) {
-            data.push(x / width, y / height);
+            data.push(x / VIDEO_WIDTH, y / VIDEO_HEIGHT);
         }
     } else data.push(...Array(42).fill(0));
 
@@ -136,15 +122,13 @@ function sendDataToMax() {
     oscSocket.send(JSON.stringify(msg));
 }
 
-// -------------------------------  
+// -------------------------------
 function draw() {
     background(20);
 
-    cameraYOffset = slider.value(); // update offset
-
-    // mirrored video with y-offset
+    // Draw mirrored video
     push();
-    translate(width, cameraYOffset);
+    translate(width, 0);
     scale(-1, 1);
     image(video, 0, 0, width, height);
     pop();
@@ -152,16 +136,14 @@ function draw() {
     drawPose();
     drawHands();
 
-    sendDataToMax();
-
-    // display slider value
-    fill(255);
-    noStroke();
-    textSize(16);
-    text(`Camera Offset: ${cameraYOffset}`, 240, height + 35);
+    // Limit inference to INFERENCE_FPS
+    if (millis() - lastInference > 1000 / INFERENCE_FPS) {
+        sendDataToMax();
+        lastInference = millis();
+    }
 }
 
-// -------------------------------  
+// -------------------------------
 function drawPose() {
     for (let i = 0; i < poses.length; i++) {
         const pose = poses[i].pose;
@@ -171,7 +153,7 @@ function drawPose() {
             if (keypoint.score > 0.3) {
                 fill(255, 150, 200);
                 noStroke();
-                ellipse(width - keypoint.position.x, keypoint.position.y + cameraYOffset, 10);
+                ellipse(width - keypoint.position.x, keypoint.position.y, 10);
             }
         }
 
@@ -179,26 +161,390 @@ function drawPose() {
             const [partA, partB] = poses[i].skeleton[j];
             stroke(255, 100, 200);
             line(
-                width - partA.position.x, partA.position.y + cameraYOffset,
-                width - partB.position.x, partB.position.y + cameraYOffset
+                width - partA.position.x, partA.position.y,
+                width - partB.position.x, partB.position.y
             );
         }
     }
 }
 
-// -------------------------------  
+// -------------------------------
 function drawHands() {
-    // Reset hands if off-screen
     if (!hands || hands.length === 0) return;
 
     for (const hand of hands) {
         for (const [x, y] of hand.landmarks) {
             fill(0, 255, 0);
             noStroke();
-            ellipse(width - x, y + cameraYOffset, 10);
+            ellipse(width - x, y, 10);
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let video;
+// let poseNet;
+// let poses = [];
+
+// let handposeModel;
+// let hands = [];
+// let smoothedHand = null;
+// let lastHandTime = 0;
+// const HAND_MEMORY_DURATION = 200; // ms to keep last hand if temporarily lost
+// const SMOOTHING_FRAMES = 3; // for landmark smoothing
+
+// let oscSocket;
+
+// // -------------------------------  
+// function setup() {
+//     createCanvas(1280, 720);
+
+//     // Webcam
+//     video = createCapture({
+//         video: { width: 1280, height: 720, facingMode: "user" }
+//     });
+//     video.size(width, height);
+//     video.hide();
+
+//     // PoseNet
+//     poseNet = ml5.poseNet(video, () => console.log("✅ PoseNet loaded"));
+//     poseNet.on("pose", gotPoses);
+
+//     // Mediapipe Hands
+//     handposeModel = ml5.handpose(video, () => console.log("✅ Mediapipe Hands ready"));
+//     handposeModel.on("predict", handleHands);
+
+//     // OSC WebSocket
+//     setupWebSocket();
+// }
+
+// function setupWebSocket() {
+//     oscSocket = new WebSocket("ws://localhost:8081");
+//     oscSocket.onopen = () => console.log("✅ Connected to OSC bridge");
+//     oscSocket.onerror = (err) => console.error("❌ WebSocket error:", err);
+// }
+
+// // -------------------------------  
+// function gotPoses(results) {
+//     poses = results;
+// }
+
+// // -------------------------------  
+// function handleHands(results) {
+//     const now = millis();
+
+//     if (results.length > 0) {
+//         const hand = results[0];
+
+//         // Initialize smoothedHand if first frame
+//         if (!smoothedHand) {
+//             smoothedHand = hand.landmarks.map(([x, y]) => [x, y]);
+//         } else {
+//             // Smooth each landmark
+//             smoothedHand = smoothedHand.map((pos, i) => {
+//                 const [xPrev, yPrev] = pos;
+//                 const [xNew, yNew] = hand.landmarks[i];
+//                 const alpha = 1 / SMOOTHING_FRAMES;
+//                 return [
+//                     xPrev * (1 - alpha) + xNew * alpha,
+//                     yPrev * (1 - alpha) + yNew * alpha
+//                 ];
+//             });
+//         }
+
+//         hands = [{
+//             landmarks: smoothedHand
+//         }];
+//         lastHandTime = now;
+//     } else {
+//         // Keep last detected hand for a short duration
+//         if (hands.length > 0 && (now - lastHandTime) < HAND_MEMORY_DURATION) {
+//             // do nothing, keep hands
+//         } else {
+//             hands = [];
+//             smoothedHand = null;
+//         }
+//     }
+// }
+
+// // -------------------------------  
+// function sendDataToMax() {
+//     if (!oscSocket || oscSocket.readyState !== WebSocket.OPEN) return;
+
+//     const data = [];
+
+//     // PoseNet: nose + wrists + shoulders
+//     if (poses.length > 0) {
+//         const pose = poses[0].pose;
+//         const nose = pose.keypoints.find(p => p.part === "nose");
+//         const leftWrist = pose.keypoints.find(p => p.part === "leftWrist");
+//         const rightWrist = pose.keypoints.find(p => p.part === "rightWrist");
+//         const leftShoulder = pose.keypoints.find(p => p.part === "leftShoulder");
+//         const rightShoulder = pose.keypoints.find(p => p.part === "rightShoulder");
+
+//         if (nose && leftWrist && rightWrist && leftShoulder && rightShoulder) {
+//             data.push(
+//                 nose.position.x / width, nose.position.y / height,
+//                 leftWrist.position.x / width, leftWrist.position.y / height,
+//                 rightWrist.position.x / width, rightWrist.position.y / height,
+//                 leftShoulder.position.x / width, leftShoulder.position.y / height,
+//                 rightShoulder.position.x / width, rightShoulder.position.y / height
+//             );
+//         } else data.push(...Array(10).fill(0));
+//     } else data.push(...Array(10).fill(0));
+
+//     // Hands: first hand only
+//     if (hands.length > 0) {
+//         const hand = hands[0];
+//         for (const [x, y] of hand.landmarks) {
+//             data.push(x / width, y / height);
+//         }
+//     } else data.push(...Array(42).fill(0));
+
+//     const msg = {
+//         address: "/poseHandData",
+//         args: data.map(v => ({ type: "f", value: v }))
+//     };
+//     oscSocket.send(JSON.stringify(msg));
+// }
+
+// // -------------------------------  
+// function draw() {
+//     background(20);
+
+//     // mirrored video
+//     push();
+//     translate(width, 0);
+//     scale(-1, 1);
+//     image(video, 0, 0, width, height);
+//     pop();
+
+//     drawPose();
+//     drawHands();
+
+//     sendDataToMax();
+// }
+
+// // -------------------------------  
+// function drawPose() {
+//     for (let i = 0; i < poses.length; i++) {
+//         const pose = poses[i].pose;
+
+//         for (let j = 0; j < pose.keypoints.length; j++) {
+//             const keypoint = pose.keypoints[j];
+//             if (keypoint.score > 0.3) {
+//                 fill(255, 150, 200);
+//                 noStroke();
+//                 ellipse(width - keypoint.position.x, keypoint.position.y, 10);
+//             }
+//         }
+
+//         for (let j = 0; j < poses[i].skeleton.length; j++) {
+//             const [partA, partB] = poses[i].skeleton[j];
+//             stroke(255, 100, 200);
+//             line(
+//                 width - partA.position.x, partA.position.y,
+//                 width - partB.position.x, partB.position.y
+//             );
+//         }
+//     }
+// }
+
+// // -------------------------------  
+// function drawHands() {
+//     if (!hands || hands.length === 0) return;
+
+//     for (const hand of hands) {
+//         for (const [x, y] of hand.landmarks) {
+//             fill(0, 255, 0);
+//             noStroke();
+//             ellipse(width - x, y, 10);
+//         }
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+// let video;
+// let poseNet;
+// let poses = [];
+
+// let handposeModel;
+// let hands = [];
+
+// let oscSocket;
+
+// let cameraYOffset = -100; // initial camera offset
+// let slider; // slider to control camera height
+
+// // -------------------------------  
+// function setup() {
+//     createCanvas(1280, 720);
+
+//     // Slider for camera offset
+//     slider = createSlider(-300, 300, cameraYOffset, 1);
+//     slider.position(20, height + 10);
+//     slider.style('width', '200px');
+
+//     // Webcam
+//     video = createCapture({
+//         video: { width: 1280, height: 720, facingMode: "user" }
+//     });
+//     video.size(width, height);
+//     video.hide();
+
+//     // PoseNet
+//     poseNet = ml5.poseNet(video, () => console.log("✅ PoseNet loaded"));
+//     poseNet.on("pose", gotPoses);
+
+//     // Mediapipe Hands
+//     handposeModel = ml5.handpose(video, () => console.log("✅ Mediapipe Hands ready"));
+//     handposeModel.on("predict", results => {
+//         hands = results;
+//     });
+
+//     // OSC WebSocket
+//     setupWebSocket();
+// }
+
+// function setupWebSocket() {
+//     oscSocket = new WebSocket("ws://localhost:8081");
+//     oscSocket.onopen = () => console.log("✅ Connected to OSC bridge");
+//     oscSocket.onerror = (err) => console.error("❌ WebSocket error:", err);
+// }
+
+// // -------------------------------  
+// function gotPoses(results) {
+//     poses = results;
+// }
+
+// // -------------------------------  
+// function sendDataToMax() {
+//     if (!oscSocket || oscSocket.readyState !== WebSocket.OPEN) return;
+
+//     const data = [];
+
+//     // PoseNet: nose + wrists + shoulders
+//     if (poses.length > 0) {
+//         const pose = poses[0].pose;
+//         const nose = pose.keypoints.find(p => p.part === "nose");
+//         const leftWrist = pose.keypoints.find(p => p.part === "leftWrist");
+//         const rightWrist = pose.keypoints.find(p => p.part === "rightWrist");
+//         const leftShoulder = pose.keypoints.find(p => p.part === "leftShoulder");
+//         const rightShoulder = pose.keypoints.find(p => p.part === "rightShoulder");
+
+//         if (nose && leftWrist && rightWrist && leftShoulder && rightShoulder) {
+//             data.push(
+//                 nose.position.x / width, nose.position.y / height,
+//                 leftWrist.position.x / width, leftWrist.position.y / height,
+//                 rightWrist.position.x / width, rightWrist.position.y / height,
+//                 leftShoulder.position.x / width, leftShoulder.position.y / height,
+//                 rightShoulder.position.x / width, rightShoulder.position.y / height
+//             );
+//         } else data.push(...Array(10).fill(0));
+//     } else data.push(...Array(10).fill(0));
+
+//     // Hands: first hand only
+//     if (hands.length > 0) {
+//         const hand = hands[0];
+//         // landmarks array: 21 points × 2 = 42 floats
+//         for (const [x, y] of hand.landmarks) {
+//             data.push(x / width, y / height);
+//         }
+//     } else data.push(...Array(42).fill(0));
+
+//     const msg = {
+//         address: "/poseHandData",
+//         args: data.map(v => ({ type: "f", value: v }))
+//     };
+//     oscSocket.send(JSON.stringify(msg));
+// }
+
+// // -------------------------------  
+// function draw() {
+//     background(20);
+
+//     cameraYOffset = slider.value(); // update offset
+
+//     // mirrored video with y-offset
+//     push();
+//     translate(width, cameraYOffset);
+//     scale(-1, 1);
+//     image(video, 0, 0, width, height);
+//     pop();
+
+//     drawPose();
+//     drawHands();
+
+//     sendDataToMax();
+
+//     // display slider value
+//     fill(255);
+//     noStroke();
+//     textSize(16);
+//     text(`Camera Offset: ${cameraYOffset}`, 240, height + 35);
+// }
+
+// // -------------------------------  
+// function drawPose() {
+//     for (let i = 0; i < poses.length; i++) {
+//         const pose = poses[i].pose;
+
+//         for (let j = 0; j < pose.keypoints.length; j++) {
+//             const keypoint = pose.keypoints[j];
+//             if (keypoint.score > 0.3) {
+//                 fill(255, 150, 200);
+//                 noStroke();
+//                 ellipse(width - keypoint.position.x, keypoint.position.y + cameraYOffset, 10);
+//             }
+//         }
+
+//         for (let j = 0; j < poses[i].skeleton.length; j++) {
+//             const [partA, partB] = poses[i].skeleton[j];
+//             stroke(255, 100, 200);
+//             line(
+//                 width - partA.position.x, partA.position.y + cameraYOffset,
+//                 width - partB.position.x, partB.position.y + cameraYOffset
+//             );
+//         }
+//     }
+// }
+
+// // -------------------------------  
+// function drawHands() {
+//     // Reset hands if off-screen
+//     if (!hands || hands.length === 0) return;
+
+//     for (const hand of hands) {
+//         for (const [x, y] of hand.landmarks) {
+//             fill(0, 255, 0);
+//             noStroke();
+//             ellipse(width - x, y + cameraYOffset, 10);
+//         }
+//     }
+// }
 
 
 
