@@ -16,6 +16,178 @@
             align-items: flex-start;
             height: 100vh;
             margin: 0;
+            padding-top: 20px;
+            background: white;
+        }
+
+        #startAudio {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 18px;
+            font-size: 16px;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="startAudio">Start Audio</button>
+
+    <script>
+        let socket, poseLabel = "idle", myCharacter, audioEngine;
+
+        let debugMode = true;
+        let barriers = [];
+        let placingBarrier = null;
+
+        function setup() {
+            const canvas = createCanvas(1000, 600);
+            canvas.parent(document.body);
+
+            myCharacter = new Character(50, 225); // speed is handled in Character.js
+
+            barriers = [
+                { x: 0, y: 357, w: 677, h: 24 },
+                { x: 0, y: 294, w: 682, h: 25 },
+                { x: 676, y: 279, w: 184, h: 189 },
+                { x: 3, y: 289, w: 445, h: 15 },
+                { x: 460, y: 464, w: 404, h: 19 },
+                { x: 398, y: 531, w: 472, h: 30 },
+                { x: 927, y: 397, w: 98, h: 27 },
+                { x: 734, y: 174, w: 269, h: 18 },
+                { x: 863, y: 454, w: 184, h: 38 },
+                { x: -4, y: -4, w: 1004, h: 11 },
+                { x: 0, y: 434, w: 376, h: 13 }
+            ];
+
+            audioEngine = new AudioEngine({
+                sampleUrl: "assets/sounds/moon_instrumental_sample.mp3",
+                sliceCount: 8
+            });
+
+            const startBtn = document.getElementById("startAudio");
+            startBtn.onclick = async () => {
+                await audioEngine.init();
+                if (audioEngine.ctx.state === "suspended") await audioEngine.ctx.resume();
+                startBtn.style.display = "none";
+            };
+
+            socket = new WebSocket("ws://localhost:8081");
+            socket.onopen = () => console.log("✅ Connected to OSC bridge");
+            socket.onmessage = e => {
+                const data = JSON.parse(e.data);
+                if (data.address === "/predictpoint" || data.address === "predictpoint") {
+                    poseLabel = data.args[0];
+                    myCharacter.changePose(poseLabel);
+                    audioEngine.playSlice(poseLabel);
+                }
+            };
+        }
+
+        function keyPressed() {
+            if (key === 'd' || key === 'D') {
+                debugMode = !debugMode;
+                console.log("🔧 Debug Mode:", debugMode ? "ON" : "OFF");
+            }
+        }
+
+        function isColliding(rect, barrier) {
+            return (
+                rect.x < barrier.x + barrier.w &&
+                rect.x + rect.width > barrier.x &&
+                rect.y < barrier.y + barrier.h &&
+                rect.y + rect.height > barrier.y
+            );
+        }
+
+        function draw() {
+            background(100);
+
+            let previousX = myCharacter.x;
+            let previousY = myCharacter.y;
+
+            myCharacter.update(poseLabel);
+
+            const hitbox = myCharacter.getCollisionBox();
+            for (let b of barriers) {
+                if (isColliding(hitbox, b)) {
+                    myCharacter.x = previousX;
+                    myCharacter.y = previousY;
+                }
+            }
+
+            myCharacter.display(debugMode);
+
+            if (debugMode) {
+                noFill();
+                stroke(255, 0, 0);
+                for (let b of barriers) {
+                    rect(b.x, b.y, b.w, b.h);
+                }
+            }
+
+            noFill();
+            stroke(0);
+            rect(0, 0, width, height);
+
+            audioEngine.updateFromCharacter(
+                myCharacter.x / width,
+                myCharacter.y / height
+            );
+        }
+
+        function mousePressed() {
+            if (!debugMode) return;
+            placingBarrier = { x: mouseX, y: mouseY, w: 0, h: 0 };
+            barriers.push(placingBarrier);
+        }
+
+        function mouseDragged() {
+            if (placingBarrier) {
+                placingBarrier.w = mouseX - placingBarrier.x;
+                placingBarrier.h = mouseY - placingBarrier.y;
+            }
+        }
+
+        function mouseReleased() {
+            if (placingBarrier) {
+                console.log("Barrier added:", placingBarrier);
+                placingBarrier = null;
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Magical Character Projection</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="js/Character.js"></script>
+    <script src="js/AudioEngine.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
             padding-top: 40px;
             background: white;
         }
@@ -150,7 +322,7 @@
 </body>
 
 </html>
-
+ -->
 
 
 <!-- <!DOCTYPE html>
