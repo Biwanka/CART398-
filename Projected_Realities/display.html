@@ -5,21 +5,24 @@
     <meta charset="utf-8" />
     <title>Magical Character Projection</title>
 
+    <!-- Load p5.js and your game scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
     <script src="js/Character.js"></script>
     <script src="js/AudioEngine.js"></script>
 
     <style>
+        /* Page styling and white background for projection */
         body {
             display: flex;
             justify-content: center;
             align-items: flex-start;
             height: 100vh;
-            margin: 0;
-            padding-top: 20px;
+            margin: 100px;
+            padding-top: 60px;
             background: white;
         }
 
+        /* Floating audio start/reset button */
         #startAudio {
             position: fixed;
             top: 20px;
@@ -32,21 +35,36 @@
 </head>
 
 <body>
+    <!-- Required by browsers: user gesture to start audio -->
     <button id="startAudio">Start Audio</button>
 
     <script>
-        let socket, poseLabel = "idle", myCharacter, audioEngine;
+        /* -----------------------------------------------------
+           GLOBAL VARIABLES
+        ----------------------------------------------------- */
 
-        let debugMode = true;
-        let barriers = [];
-        let placingBarrier = null;
+        let socket;                 // WebSocket receiving OSC pose labels
+        let poseLabel = "idle";     // Current pose for animation + audio
+        let myCharacter;            // Character instance
+        let audioEngine;            // Manages sample slicing & effects
 
+        let debugMode = true;       // Debug mode toggle (press "D")
+        let barriers = [];          // List of collision rectangles
+        let placingBarrier = null;  // Temporary barrier while drawing
+
+
+        /* -----------------------------------------------------
+           p5.js SETUP — runs once when the sketch loads
+        ----------------------------------------------------- */
         function setup() {
+            // Create the drawing canvas
             const canvas = createCanvas(1000, 600);
             canvas.parent(document.body);
 
-            myCharacter = new Character(50, 225); // speed is handled in Character.js
+            // Character starts at left side; movement is handled in Character.js
+            myCharacter = new Character(50, 225);
 
+            // Predefined barriers (hand-drawn from your painting)
             barriers = [
                 { x: 0, y: 357, w: 677, h: 24 },
                 { x: 0, y: 294, w: 682, h: 25 },
@@ -61,37 +79,60 @@
                 { x: 0, y: 434, w: 376, h: 13 }
             ];
 
+            // Audio engine handles sample slicing and sound effects
             audioEngine = new AudioEngine({
                 sampleUrl: "assets/sounds/moon_instrumental_sample.mp3",
                 sliceCount: 8
             });
 
+            /* ----------------------------------------------
+               Start audio only when button is clicked
+               (browser security requirement)
+            ---------------------------------------------- */
             const startBtn = document.getElementById("startAudio");
             startBtn.onclick = async () => {
                 await audioEngine.init();
-                if (audioEngine.ctx.state === "suspended") await audioEngine.ctx.resume();
-                startBtn.style.display = "none";
+                if (audioEngine.ctx.state === "suspended") {
+                    await audioEngine.ctx.resume();
+                }
+                startBtn.style.display = "none"; // hide button after starting
             };
 
+            /* ----------------------------------------------
+               OSC WebSocket connection
+               Receives pose labels from your ML model
+            ---------------------------------------------- */
             socket = new WebSocket("ws://localhost:8081");
             socket.onopen = () => console.log("✅ Connected to OSC bridge");
             socket.onmessage = e => {
                 const data = JSON.parse(e.data);
+
+                // Only process messages that contain pose predictions
                 if (data.address === "/predictpoint" || data.address === "predictpoint") {
-                    poseLabel = data.args[0];
-                    myCharacter.changePose(poseLabel);
-                    audioEngine.playSlice(poseLabel);
+                    poseLabel = data.args[0];     // update animation label
+                    myCharacter.changePose(poseLabel); // choose animation frames
+                    audioEngine.playSlice(poseLabel);   // play corresponding audio slice
                 }
             };
         }
 
+
+        /* -----------------------------------------------------
+           KEYBOARD SHORTCUTS
+        ----------------------------------------------------- */
         function keyPressed() {
+            // Toggle debug mode with D
             if (key === 'd' || key === 'D') {
                 debugMode = !debugMode;
                 console.log("🔧 Debug Mode:", debugMode ? "ON" : "OFF");
             }
         }
 
+
+        /* -----------------------------------------------------
+           RECTANGLE COLLISION HELPER
+           (checks overlap between character hitbox & barriers)
+        ----------------------------------------------------- */
         function isColliding(rect, barrier) {
             return (
                 rect.x < barrier.x + barrier.w &&
@@ -101,24 +142,38 @@
             );
         }
 
-        function draw() {
-            background(100);
 
+        /* -----------------------------------------------------
+           p5.js DRAW LOOP — runs 60 FPS
+        ----------------------------------------------------- */
+        function draw() {
+            background(100); // Light grey so character reads well on projection
+
+            // Save previous position for collision rollback
             let previousX = myCharacter.x;
             let previousY = myCharacter.y;
 
+            // Update animation & movement based on pose
             myCharacter.update(poseLabel);
 
+            // Get character’s hitbox (comes from Character.js)
             const hitbox = myCharacter.getCollisionBox();
+
+            // Check collision with every barrier
             for (let b of barriers) {
                 if (isColliding(hitbox, b)) {
+                    // Roll back to previous safe position
                     myCharacter.x = previousX;
                     myCharacter.y = previousY;
                 }
             }
 
+            // Draw character (includes hitbox if debugMode=true)
             myCharacter.display(debugMode);
 
+            /* ----------------------------------------------
+               Draw barriers when debugging
+            ---------------------------------------------- */
             if (debugMode) {
                 noFill();
                 stroke(255, 0, 0);
@@ -127,22 +182,32 @@
                 }
             }
 
+            // Draw the canvas border (purely visual)
             noFill();
             stroke(0);
             rect(0, 0, width, height);
 
+            // Update audio panning using character % position
             audioEngine.updateFromCharacter(
                 myCharacter.x / width,
                 myCharacter.y / height
             );
         }
 
+
+        /* -----------------------------------------------------
+           BARRIER CREATION WITH MOUSE (debug mode only)
+        ----------------------------------------------------- */
+
+        // Start drawing a new barrier
         function mousePressed() {
             if (!debugMode) return;
+
             placingBarrier = { x: mouseX, y: mouseY, w: 0, h: 0 };
             barriers.push(placingBarrier);
         }
 
+        // Resize while dragging
         function mouseDragged() {
             if (placingBarrier) {
                 placingBarrier.w = mouseX - placingBarrier.x;
@@ -150,314 +215,15 @@
             }
         }
 
+        // Finish barrier and print it in console for copy/paste
         function mouseReleased() {
             if (placingBarrier) {
                 console.log("Barrier added:", placingBarrier);
                 placingBarrier = null;
             }
         }
+
     </script>
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <title>Magical Character Projection</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-    <script src="js/Character.js"></script>
-    <script src="js/AudioEngine.js"></script>
-
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-            margin: 0;
-            padding-top: 40px;
-            background: white;
-        }
-
-        #startAudio {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 18px;
-            font-size: 16px;
-            z-index: 10;
-        }
-    </style>
-</head>
-
-<body>
-    <button id="startAudio">Start Audio</button>
-
-    <script>
-        let socket, poseLabel = "idle", myCharacter, audioEngine;
-        let barriers = [];
-        let showBarriers = false;  // press B to toggle
-
-        function setup() {
-            const canvas = createCanvas(1000, 600);
-            canvas.parent(document.body);
-
-            /* CHARACTER START LEFT */
-            myCharacter = new Character(50, 215);
-            myCharacter.scale = 0.13;
-
-            /* INVISIBLE BARRIERS */
-            barriers = [
-                { x: 0, y: 357, w: 677, h: 24 },
-                { x: 0, y: 294, w: 682, h: 25 },
-                { x: 676, y: 279, w: 184, h: 189 },
-                { x: 3, y: 289, w: 445, h: 15 },
-                { x: 460, y: 464, w: 404, h: 19 },
-                { x: 398, y: 531, w: 472, h: 30 },
-                { x: 927, y: 397, w: 98, h: 27 },
-                { x: 734, y: 174, w: 269, h: 18 },
-                { x: 863, y: 454, w: 184, h: 38 },
-                { x: -4, y: -4, w: 1004, h: 11 },
-                { x: 0, y: 434, w: 376, h: 13 }
-            ];
-
-            /* AUDIO ENGINE */
-            audioEngine = new AudioEngine({
-                sampleUrl: "assets/sounds/moon_instrumental_sample.mp3",
-                sliceCount: 8
-            });
-
-            const startBtn = document.getElementById("startAudio");
-            startBtn.onclick = async () => {
-                await audioEngine.init();
-                if (audioEngine.ctx.state === "suspended") {
-                    await audioEngine.ctx.resume();
-                }
-                startBtn.style.display = "none";
-            };
-
-            /* OSC WEBSOCKET */
-            socket = new WebSocket("ws://localhost:8081");
-            socket.onopen = () => console.log("✅ Connected to OSC bridge");
-            socket.onmessage = e => {
-                const data = JSON.parse(e.data);
-                if (data.address === "/predictpoint" || data.address === "predictpoint") {
-                    poseLabel = data.args[0];
-                    myCharacter.changePose(poseLabel);
-                    audioEngine.playSlice(poseLabel);
-                }
-            };
-        }
-
-        /* COLLISION AGAINST BARRIERS */
-        function checkBarriers(x, y) {
-            for (let b of barriers) {
-                if (x > b.x && x < b.x + b.w &&
-                    y > b.y && y < b.y + b.h) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function draw() {
-            /* ⭐ LIGHT GREY BACKGROUND ⭐ */
-            background(100);
-
-            let prevX = myCharacter.x;
-            let prevY = myCharacter.y;
-
-            myCharacter.update(poseLabel);
-
-            /* Collision with barriers */
-            if (checkBarriers(myCharacter.x, myCharacter.y)) {
-                myCharacter.x = prevX;
-                myCharacter.y = prevY;
-            }
-
-            /* Keep character inside frame */
-            myCharacter.x = constrain(myCharacter.x, 50, width - 50);
-            myCharacter.y = constrain(myCharacter.y, 50, height - 50);
-
-            myCharacter.display();
-
-            /* Border */
-            stroke(0);
-            noFill();
-            rect(0, 0, width, height);
-
-            /* SHOW BARRIERS IF TOGGLED */
-            if (showBarriers) {
-                noStroke();
-                fill(255, 0, 0, 120);
-                for (let b of barriers) rect(b.x, b.y, b.w, b.h);
-            }
-
-            audioEngine.updateFromCharacter(
-                myCharacter.x / width,
-                myCharacter.y / height
-            );
-        }
-
-        /* ⭐ PRESS B TO TOGGLE BARRIERS ⭐ */
-        function keyPressed() {
-            if (key === "b" || key === "B") {
-                showBarriers = !showBarriers;
-            }
-        }
-    </script>
-</body>
-
-</html>
- -->
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <title>Character Projection</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-    <script src="js/Character.js"></script>
-
-
-</head>
-
-<body>
-
-    <script>
-        let socket, poseLabel = "idle", myCharacter;
-
-        function setup() {
-            createCanvas(800, 600);
-            myCharacter = new Character(width / 2, height / 2);
-
-            socket = new WebSocket("ws://localhost:8081");
-            socket.onopen = () => console.log("✅ Connected to OSC bridge");
-
-            socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-
-                if (data.address === "/predictpoint" || data.address === "predictpoint") {
-                    poseLabel = data.args[0];
-                    console.log("🎯 Prediction received:", poseLabel);
-                    myCharacter.changePose(poseLabel);
-                }
-
-
-
-                // if (data.address === "/predictpoint") {
-                //     poseLabel = data.args[0];
-                //     myCharacter.changePose(poseLabel);
-                // }
-            };
-        }
-
-        function draw() {
-            background(0);
-            myCharacter.update(poseLabel);
-            myCharacter.display();
-        }
-    </script>
-
-
-</body>
-
-</html>
-
- -->
-
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projected Character</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-
-    <script src="js/Character.js"></script>
-    <script src="js/GameScene.js"></script>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: black;
-        }
-
-        canvas {
-            display: block;
-            margin: auto;
-        }
-    </style>
-</head>
-
-<body>
-    <script>
-        let socket;
-        let poseData = [];
-
-        function setup() {
-            createCanvas(800, 500);
-            socket = new WebSocket("ws://localhost:8081");
-
-            socket.onopen = () => console.log("✅ Connected to OSC bridge");
-            socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                if (data.address === "/poseData") poseData = data.args.map(a => a.value);
-            };
-        }
-
-        function draw() {
-            background(10);
-            fill(255, 100, 150);
-            noStroke();
-
-            // Example: visualize wrists as circles
-            if (poseData.length === 6) {
-                let [noseX, noseY, lwX, lwY, rwX, rwY] = poseData.map(v => v * width);
-                ellipse(lwX, lwY, 30);
-                ellipse(rwX, rwY, 30);
-                ellipse(noseX, noseY, 20);
-            }
-
-            fill(255);
-            textAlign(CENTER);
-            textSize(16);
-            text("Projection View (Receiving Data)", width / 2, 30);
-        }
-    </script>
-</body>
-
-</html> -->
-
-<!-- ✅ How it works:
-
-This connects to the same Node bridge on port 8081.
-
-It listens for /poseData just like Max does.
-
-It visualizes the coordinates as moving shapes or can control your character animation later.
-
-💡 You can open this display.html on another computer (connected via Tailscale or same Wi-Fi) or another browser window
-on a second monitor — it will still receive the live data. -->

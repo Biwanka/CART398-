@@ -1,0 +1,3389 @@
+{
+  "cols": 1,
+  "data": {
+    "example-0": [
+      "idle"
+    ],
+    "example-1": [
+      "idle"
+    ],
+    "example-10": [
+      "idle"
+    ],
+    "example-100": [
+      "idle"
+    ],
+    "example-1000": [
+      "crouch"
+    ],
+    "example-1001": [
+      "crouch"
+    ],
+    "example-1002": [
+      "crouch"
+    ],
+    "example-1003": [
+      "crouch"
+    ],
+    "example-1004": [
+      "crouch"
+    ],
+    "example-1005": [
+      "crouch"
+    ],
+    "example-1006": [
+      "crouch"
+    ],
+    "example-1007": [
+      "crouch"
+    ],
+    "example-1008": [
+      "crouch"
+    ],
+    "example-1009": [
+      "crouch"
+    ],
+    "example-101": [
+      "idle"
+    ],
+    "example-1010": [
+      "crouch"
+    ],
+    "example-1011": [
+      "crouch"
+    ],
+    "example-1012": [
+      "crouch"
+    ],
+    "example-1013": [
+      "crouch"
+    ],
+    "example-1014": [
+      "crouch"
+    ],
+    "example-1015": [
+      "crouch"
+    ],
+    "example-1016": [
+      "crouch"
+    ],
+    "example-1017": [
+      "crouch"
+    ],
+    "example-1018": [
+      "crouch"
+    ],
+    "example-1019": [
+      "crouch"
+    ],
+    "example-102": [
+      "idle"
+    ],
+    "example-1020": [
+      "crouch"
+    ],
+    "example-1021": [
+      "crouch"
+    ],
+    "example-1022": [
+      "crouch"
+    ],
+    "example-1023": [
+      "crouch"
+    ],
+    "example-1024": [
+      "crouch"
+    ],
+    "example-1025": [
+      "crouch"
+    ],
+    "example-1026": [
+      "crouch"
+    ],
+    "example-1027": [
+      "climb"
+    ],
+    "example-1028": [
+      "climb"
+    ],
+    "example-1029": [
+      "climb"
+    ],
+    "example-103": [
+      "idle"
+    ],
+    "example-1030": [
+      "climb"
+    ],
+    "example-1031": [
+      "climb"
+    ],
+    "example-1032": [
+      "climb"
+    ],
+    "example-1033": [
+      "climb"
+    ],
+    "example-1034": [
+      "climb"
+    ],
+    "example-1035": [
+      "climb"
+    ],
+    "example-1036": [
+      "climb"
+    ],
+    "example-1037": [
+      "climb"
+    ],
+    "example-1038": [
+      "climb"
+    ],
+    "example-1039": [
+      "climb"
+    ],
+    "example-104": [
+      "idle"
+    ],
+    "example-1040": [
+      "climb"
+    ],
+    "example-1041": [
+      "climb"
+    ],
+    "example-1042": [
+      "climb"
+    ],
+    "example-1043": [
+      "climb"
+    ],
+    "example-1044": [
+      "climb"
+    ],
+    "example-1045": [
+      "climb"
+    ],
+    "example-1046": [
+      "climb"
+    ],
+    "example-1047": [
+      "climb"
+    ],
+    "example-1048": [
+      "climb"
+    ],
+    "example-1049": [
+      "climb"
+    ],
+    "example-105": [
+      "idle"
+    ],
+    "example-1050": [
+      "climb"
+    ],
+    "example-1051": [
+      "climb"
+    ],
+    "example-1052": [
+      "climb"
+    ],
+    "example-1053": [
+      "climb"
+    ],
+    "example-1054": [
+      "climb"
+    ],
+    "example-1055": [
+      "climb"
+    ],
+    "example-1056": [
+      "climb"
+    ],
+    "example-1057": [
+      "climb"
+    ],
+    "example-1058": [
+      "climb"
+    ],
+    "example-1059": [
+      "climb"
+    ],
+    "example-106": [
+      "idle"
+    ],
+    "example-1060": [
+      "climb"
+    ],
+    "example-1061": [
+      "climb"
+    ],
+    "example-1062": [
+      "climb"
+    ],
+    "example-1063": [
+      "climb"
+    ],
+    "example-1064": [
+      "climb"
+    ],
+    "example-1065": [
+      "climb"
+    ],
+    "example-1066": [
+      "climb"
+    ],
+    "example-1067": [
+      "climb"
+    ],
+    "example-1068": [
+      "climb"
+    ],
+    "example-1069": [
+      "climb"
+    ],
+    "example-107": [
+      "idle"
+    ],
+    "example-1070": [
+      "climb"
+    ],
+    "example-1071": [
+      "climb"
+    ],
+    "example-1072": [
+      "climb"
+    ],
+    "example-1073": [
+      "climb"
+    ],
+    "example-1074": [
+      "climb"
+    ],
+    "example-1075": [
+      "climb"
+    ],
+    "example-1076": [
+      "climb"
+    ],
+    "example-1077": [
+      "climb"
+    ],
+    "example-1078": [
+      "climb"
+    ],
+    "example-1079": [
+      "climb"
+    ],
+    "example-108": [
+      "idle"
+    ],
+    "example-1080": [
+      "climb"
+    ],
+    "example-1081": [
+      "climb"
+    ],
+    "example-1082": [
+      "climb"
+    ],
+    "example-1083": [
+      "climb"
+    ],
+    "example-1084": [
+      "climb"
+    ],
+    "example-1085": [
+      "climb"
+    ],
+    "example-1086": [
+      "climb"
+    ],
+    "example-1087": [
+      "climb"
+    ],
+    "example-1088": [
+      "climb"
+    ],
+    "example-1089": [
+      "climb"
+    ],
+    "example-109": [
+      "idle"
+    ],
+    "example-1090": [
+      "climb"
+    ],
+    "example-1091": [
+      "climb"
+    ],
+    "example-1092": [
+      "climb"
+    ],
+    "example-1093": [
+      "climb"
+    ],
+    "example-1094": [
+      "climb"
+    ],
+    "example-1095": [
+      "climb"
+    ],
+    "example-1096": [
+      "climb"
+    ],
+    "example-1097": [
+      "climb"
+    ],
+    "example-1098": [
+      "climb"
+    ],
+    "example-1099": [
+      "climb"
+    ],
+    "example-11": [
+      "idle"
+    ],
+    "example-110": [
+      "idle"
+    ],
+    "example-1100": [
+      "climb"
+    ],
+    "example-1101": [
+      "climb"
+    ],
+    "example-1102": [
+      "climb"
+    ],
+    "example-1103": [
+      "climb"
+    ],
+    "example-1104": [
+      "climb"
+    ],
+    "example-1105": [
+      "climb"
+    ],
+    "example-1106": [
+      "climb"
+    ],
+    "example-1107": [
+      "climb"
+    ],
+    "example-1108": [
+      "climb"
+    ],
+    "example-1109": [
+      "climb"
+    ],
+    "example-111": [
+      "idle"
+    ],
+    "example-1110": [
+      "climb"
+    ],
+    "example-1111": [
+      "climb"
+    ],
+    "example-1112": [
+      "climb"
+    ],
+    "example-1113": [
+      "climb"
+    ],
+    "example-1114": [
+      "climb"
+    ],
+    "example-1115": [
+      "climb"
+    ],
+    "example-1116": [
+      "climb"
+    ],
+    "example-1117": [
+      "climb"
+    ],
+    "example-1118": [
+      "climb"
+    ],
+    "example-1119": [
+      "climb"
+    ],
+    "example-112": [
+      "idle"
+    ],
+    "example-1120": [
+      "climb"
+    ],
+    "example-1121": [
+      "climb"
+    ],
+    "example-1122": [
+      "climb"
+    ],
+    "example-1123": [
+      "climb"
+    ],
+    "example-1124": [
+      "climb"
+    ],
+    "example-1125": [
+      "climb"
+    ],
+    "example-1126": [
+      "climb"
+    ],
+    "example-1127": [
+      "climb"
+    ],
+    "example-113": [
+      "idle"
+    ],
+    "example-114": [
+      "idle"
+    ],
+    "example-115": [
+      "idle"
+    ],
+    "example-116": [
+      "idle"
+    ],
+    "example-117": [
+      "idle"
+    ],
+    "example-118": [
+      "idle"
+    ],
+    "example-119": [
+      "idle"
+    ],
+    "example-12": [
+      "idle"
+    ],
+    "example-120": [
+      "idle"
+    ],
+    "example-121": [
+      "idle"
+    ],
+    "example-122": [
+      "idle"
+    ],
+    "example-123": [
+      "walk_left"
+    ],
+    "example-124": [
+      "walk_left"
+    ],
+    "example-125": [
+      "walk_left"
+    ],
+    "example-126": [
+      "walk_left"
+    ],
+    "example-127": [
+      "walk_left"
+    ],
+    "example-128": [
+      "walk_left"
+    ],
+    "example-129": [
+      "walk_left"
+    ],
+    "example-13": [
+      "idle"
+    ],
+    "example-130": [
+      "walk_left"
+    ],
+    "example-131": [
+      "walk_left"
+    ],
+    "example-132": [
+      "walk_left"
+    ],
+    "example-133": [
+      "walk_left"
+    ],
+    "example-134": [
+      "walk_left"
+    ],
+    "example-135": [
+      "walk_left"
+    ],
+    "example-136": [
+      "walk_left"
+    ],
+    "example-137": [
+      "walk_left"
+    ],
+    "example-138": [
+      "walk_left"
+    ],
+    "example-139": [
+      "walk_left"
+    ],
+    "example-14": [
+      "idle"
+    ],
+    "example-140": [
+      "walk_left"
+    ],
+    "example-141": [
+      "walk_left"
+    ],
+    "example-142": [
+      "walk_left"
+    ],
+    "example-143": [
+      "walk_left"
+    ],
+    "example-144": [
+      "walk_left"
+    ],
+    "example-145": [
+      "walk_left"
+    ],
+    "example-146": [
+      "walk_left"
+    ],
+    "example-147": [
+      "walk_left"
+    ],
+    "example-148": [
+      "walk_left"
+    ],
+    "example-149": [
+      "walk_left"
+    ],
+    "example-15": [
+      "idle"
+    ],
+    "example-150": [
+      "walk_left"
+    ],
+    "example-151": [
+      "walk_left"
+    ],
+    "example-152": [
+      "walk_left"
+    ],
+    "example-153": [
+      "walk_left"
+    ],
+    "example-154": [
+      "walk_left"
+    ],
+    "example-155": [
+      "walk_left"
+    ],
+    "example-156": [
+      "walk_left"
+    ],
+    "example-157": [
+      "walk_left"
+    ],
+    "example-158": [
+      "walk_left"
+    ],
+    "example-159": [
+      "walk_left"
+    ],
+    "example-16": [
+      "idle"
+    ],
+    "example-160": [
+      "walk_left"
+    ],
+    "example-161": [
+      "walk_left"
+    ],
+    "example-162": [
+      "walk_left"
+    ],
+    "example-163": [
+      "walk_left"
+    ],
+    "example-164": [
+      "walk_left"
+    ],
+    "example-165": [
+      "walk_left"
+    ],
+    "example-166": [
+      "walk_left"
+    ],
+    "example-167": [
+      "walk_left"
+    ],
+    "example-168": [
+      "walk_left"
+    ],
+    "example-169": [
+      "walk_left"
+    ],
+    "example-17": [
+      "idle"
+    ],
+    "example-170": [
+      "walk_left"
+    ],
+    "example-171": [
+      "walk_left"
+    ],
+    "example-172": [
+      "walk_left"
+    ],
+    "example-173": [
+      "walk_left"
+    ],
+    "example-174": [
+      "walk_left"
+    ],
+    "example-175": [
+      "walk_left"
+    ],
+    "example-176": [
+      "walk_left"
+    ],
+    "example-177": [
+      "walk_left"
+    ],
+    "example-178": [
+      "walk_left"
+    ],
+    "example-179": [
+      "walk_left"
+    ],
+    "example-18": [
+      "idle"
+    ],
+    "example-180": [
+      "walk_left"
+    ],
+    "example-181": [
+      "walk_left"
+    ],
+    "example-182": [
+      "walk_left"
+    ],
+    "example-183": [
+      "walk_left"
+    ],
+    "example-184": [
+      "walk_left"
+    ],
+    "example-185": [
+      "walk_left"
+    ],
+    "example-186": [
+      "walk_left"
+    ],
+    "example-187": [
+      "walk_left"
+    ],
+    "example-188": [
+      "walk_left"
+    ],
+    "example-189": [
+      "walk_left"
+    ],
+    "example-19": [
+      "idle"
+    ],
+    "example-190": [
+      "walk_left"
+    ],
+    "example-191": [
+      "walk_left"
+    ],
+    "example-192": [
+      "walk_left"
+    ],
+    "example-193": [
+      "walk_left"
+    ],
+    "example-194": [
+      "walk_left"
+    ],
+    "example-195": [
+      "walk_left"
+    ],
+    "example-196": [
+      "walk_left"
+    ],
+    "example-197": [
+      "walk_left"
+    ],
+    "example-198": [
+      "walk_left"
+    ],
+    "example-199": [
+      "walk_left"
+    ],
+    "example-2": [
+      "idle"
+    ],
+    "example-20": [
+      "idle"
+    ],
+    "example-200": [
+      "walk_left"
+    ],
+    "example-201": [
+      "walk_left"
+    ],
+    "example-202": [
+      "walk_left"
+    ],
+    "example-203": [
+      "walk_left"
+    ],
+    "example-204": [
+      "walk_left"
+    ],
+    "example-205": [
+      "walk_left"
+    ],
+    "example-206": [
+      "walk_left"
+    ],
+    "example-207": [
+      "walk_left"
+    ],
+    "example-208": [
+      "walk_left"
+    ],
+    "example-209": [
+      "walk_left"
+    ],
+    "example-21": [
+      "idle"
+    ],
+    "example-210": [
+      "walk_left"
+    ],
+    "example-211": [
+      "walk_left"
+    ],
+    "example-212": [
+      "walk_left"
+    ],
+    "example-213": [
+      "walk_left"
+    ],
+    "example-214": [
+      "walk_left"
+    ],
+    "example-215": [
+      "walk_left"
+    ],
+    "example-216": [
+      "walk_left"
+    ],
+    "example-217": [
+      "walk_left"
+    ],
+    "example-218": [
+      "walk_left"
+    ],
+    "example-219": [
+      "walk_left"
+    ],
+    "example-22": [
+      "idle"
+    ],
+    "example-220": [
+      "walk_left"
+    ],
+    "example-221": [
+      "walk_left"
+    ],
+    "example-222": [
+      "walk_left"
+    ],
+    "example-223": [
+      "walk_left"
+    ],
+    "example-224": [
+      "walk_left"
+    ],
+    "example-225": [
+      "walk_left"
+    ],
+    "example-226": [
+      "walk_left"
+    ],
+    "example-227": [
+      "walk_left"
+    ],
+    "example-228": [
+      "walk_left"
+    ],
+    "example-229": [
+      "walk_left"
+    ],
+    "example-23": [
+      "idle"
+    ],
+    "example-230": [
+      "walk_left"
+    ],
+    "example-231": [
+      "walk_left"
+    ],
+    "example-232": [
+      "walk_left"
+    ],
+    "example-233": [
+      "walk_left"
+    ],
+    "example-234": [
+      "walk_left"
+    ],
+    "example-235": [
+      "walk_left"
+    ],
+    "example-236": [
+      "walk_left"
+    ],
+    "example-237": [
+      "walk_left"
+    ],
+    "example-238": [
+      "walk_left"
+    ],
+    "example-239": [
+      "walk_left"
+    ],
+    "example-24": [
+      "idle"
+    ],
+    "example-240": [
+      "walk_left"
+    ],
+    "example-241": [
+      "walk_left"
+    ],
+    "example-242": [
+      "walk_left"
+    ],
+    "example-243": [
+      "walk_left"
+    ],
+    "example-244": [
+      "walk_left"
+    ],
+    "example-245": [
+      "walk_left"
+    ],
+    "example-246": [
+      "walk_left"
+    ],
+    "example-247": [
+      "walk_left"
+    ],
+    "example-248": [
+      "walk_left"
+    ],
+    "example-249": [
+      "walk_left"
+    ],
+    "example-25": [
+      "idle"
+    ],
+    "example-250": [
+      "walk_left"
+    ],
+    "example-251": [
+      "walk_left"
+    ],
+    "example-252": [
+      "walk_left"
+    ],
+    "example-253": [
+      "walk_left"
+    ],
+    "example-254": [
+      "walk_left"
+    ],
+    "example-255": [
+      "walk_left"
+    ],
+    "example-256": [
+      "walk_left"
+    ],
+    "example-257": [
+      "walk_left"
+    ],
+    "example-258": [
+      "walk_left"
+    ],
+    "example-259": [
+      "walk_left"
+    ],
+    "example-26": [
+      "idle"
+    ],
+    "example-260": [
+      "walk_left"
+    ],
+    "example-261": [
+      "walk_left"
+    ],
+    "example-262": [
+      "walk_left"
+    ],
+    "example-263": [
+      "walk_left"
+    ],
+    "example-264": [
+      "walk_left"
+    ],
+    "example-265": [
+      "walk_left"
+    ],
+    "example-266": [
+      "walk_left"
+    ],
+    "example-267": [
+      "walk_left"
+    ],
+    "example-268": [
+      "walk_left"
+    ],
+    "example-269": [
+      "walk_left"
+    ],
+    "example-27": [
+      "idle"
+    ],
+    "example-270": [
+      "walk_left"
+    ],
+    "example-271": [
+      "walk_left"
+    ],
+    "example-272": [
+      "walk_left"
+    ],
+    "example-273": [
+      "walk_left"
+    ],
+    "example-274": [
+      "walk_left"
+    ],
+    "example-275": [
+      "walk_left"
+    ],
+    "example-276": [
+      "walk_left"
+    ],
+    "example-277": [
+      "walk_left"
+    ],
+    "example-278": [
+      "walk_left"
+    ],
+    "example-279": [
+      "walk_left"
+    ],
+    "example-28": [
+      "idle"
+    ],
+    "example-280": [
+      "walk_left"
+    ],
+    "example-281": [
+      "walk_left"
+    ],
+    "example-282": [
+      "walk_right"
+    ],
+    "example-283": [
+      "walk_right"
+    ],
+    "example-284": [
+      "walk_right"
+    ],
+    "example-285": [
+      "walk_right"
+    ],
+    "example-286": [
+      "walk_right"
+    ],
+    "example-287": [
+      "walk_right"
+    ],
+    "example-288": [
+      "walk_right"
+    ],
+    "example-289": [
+      "walk_right"
+    ],
+    "example-29": [
+      "idle"
+    ],
+    "example-290": [
+      "walk_right"
+    ],
+    "example-291": [
+      "walk_right"
+    ],
+    "example-292": [
+      "walk_right"
+    ],
+    "example-293": [
+      "walk_right"
+    ],
+    "example-294": [
+      "walk_right"
+    ],
+    "example-295": [
+      "walk_right"
+    ],
+    "example-296": [
+      "walk_right"
+    ],
+    "example-297": [
+      "walk_right"
+    ],
+    "example-298": [
+      "walk_right"
+    ],
+    "example-299": [
+      "walk_right"
+    ],
+    "example-3": [
+      "idle"
+    ],
+    "example-30": [
+      "idle"
+    ],
+    "example-300": [
+      "walk_right"
+    ],
+    "example-301": [
+      "walk_right"
+    ],
+    "example-302": [
+      "walk_right"
+    ],
+    "example-303": [
+      "walk_right"
+    ],
+    "example-304": [
+      "walk_right"
+    ],
+    "example-305": [
+      "walk_right"
+    ],
+    "example-306": [
+      "walk_right"
+    ],
+    "example-307": [
+      "walk_right"
+    ],
+    "example-308": [
+      "walk_right"
+    ],
+    "example-309": [
+      "walk_right"
+    ],
+    "example-31": [
+      "idle"
+    ],
+    "example-310": [
+      "walk_right"
+    ],
+    "example-311": [
+      "walk_right"
+    ],
+    "example-312": [
+      "walk_right"
+    ],
+    "example-313": [
+      "walk_right"
+    ],
+    "example-314": [
+      "walk_right"
+    ],
+    "example-315": [
+      "walk_right"
+    ],
+    "example-316": [
+      "walk_right"
+    ],
+    "example-317": [
+      "walk_right"
+    ],
+    "example-318": [
+      "walk_right"
+    ],
+    "example-319": [
+      "walk_right"
+    ],
+    "example-32": [
+      "idle"
+    ],
+    "example-320": [
+      "walk_right"
+    ],
+    "example-321": [
+      "walk_right"
+    ],
+    "example-322": [
+      "walk_right"
+    ],
+    "example-323": [
+      "walk_right"
+    ],
+    "example-324": [
+      "walk_right"
+    ],
+    "example-325": [
+      "walk_right"
+    ],
+    "example-326": [
+      "walk_right"
+    ],
+    "example-327": [
+      "walk_right"
+    ],
+    "example-328": [
+      "walk_right"
+    ],
+    "example-329": [
+      "walk_right"
+    ],
+    "example-33": [
+      "idle"
+    ],
+    "example-330": [
+      "walk_right"
+    ],
+    "example-331": [
+      "walk_right"
+    ],
+    "example-332": [
+      "walk_right"
+    ],
+    "example-333": [
+      "walk_right"
+    ],
+    "example-334": [
+      "walk_right"
+    ],
+    "example-335": [
+      "walk_right"
+    ],
+    "example-336": [
+      "walk_right"
+    ],
+    "example-337": [
+      "walk_right"
+    ],
+    "example-338": [
+      "walk_right"
+    ],
+    "example-339": [
+      "walk_right"
+    ],
+    "example-34": [
+      "idle"
+    ],
+    "example-340": [
+      "walk_right"
+    ],
+    "example-341": [
+      "walk_right"
+    ],
+    "example-342": [
+      "walk_right"
+    ],
+    "example-343": [
+      "walk_right"
+    ],
+    "example-344": [
+      "walk_right"
+    ],
+    "example-345": [
+      "walk_right"
+    ],
+    "example-346": [
+      "walk_right"
+    ],
+    "example-347": [
+      "walk_right"
+    ],
+    "example-348": [
+      "walk_right"
+    ],
+    "example-349": [
+      "walk_right"
+    ],
+    "example-35": [
+      "idle"
+    ],
+    "example-350": [
+      "walk_right"
+    ],
+    "example-351": [
+      "walk_right"
+    ],
+    "example-352": [
+      "walk_right"
+    ],
+    "example-353": [
+      "walk_right"
+    ],
+    "example-354": [
+      "walk_right"
+    ],
+    "example-355": [
+      "walk_right"
+    ],
+    "example-356": [
+      "walk_right"
+    ],
+    "example-357": [
+      "walk_right"
+    ],
+    "example-358": [
+      "walk_right"
+    ],
+    "example-359": [
+      "walk_right"
+    ],
+    "example-36": [
+      "idle"
+    ],
+    "example-360": [
+      "walk_right"
+    ],
+    "example-361": [
+      "walk_right"
+    ],
+    "example-362": [
+      "walk_right"
+    ],
+    "example-363": [
+      "walk_right"
+    ],
+    "example-364": [
+      "walk_right"
+    ],
+    "example-365": [
+      "walk_right"
+    ],
+    "example-366": [
+      "walk_right"
+    ],
+    "example-367": [
+      "walk_right"
+    ],
+    "example-368": [
+      "walk_right"
+    ],
+    "example-369": [
+      "walk_right"
+    ],
+    "example-37": [
+      "idle"
+    ],
+    "example-370": [
+      "walk_right"
+    ],
+    "example-371": [
+      "walk_right"
+    ],
+    "example-372": [
+      "walk_right"
+    ],
+    "example-373": [
+      "walk_right"
+    ],
+    "example-374": [
+      "walk_right"
+    ],
+    "example-375": [
+      "walk_right"
+    ],
+    "example-376": [
+      "walk_right"
+    ],
+    "example-377": [
+      "walk_right"
+    ],
+    "example-378": [
+      "walk_right"
+    ],
+    "example-379": [
+      "walk_right"
+    ],
+    "example-38": [
+      "idle"
+    ],
+    "example-380": [
+      "walk_right"
+    ],
+    "example-381": [
+      "walk_right"
+    ],
+    "example-382": [
+      "walk_right"
+    ],
+    "example-383": [
+      "walk_right"
+    ],
+    "example-384": [
+      "walk_right"
+    ],
+    "example-385": [
+      "walk_right"
+    ],
+    "example-386": [
+      "walk_right"
+    ],
+    "example-387": [
+      "walk_right"
+    ],
+    "example-388": [
+      "walk_right"
+    ],
+    "example-389": [
+      "walk_right"
+    ],
+    "example-39": [
+      "idle"
+    ],
+    "example-390": [
+      "walk_right"
+    ],
+    "example-391": [
+      "walk_right"
+    ],
+    "example-392": [
+      "walk_right"
+    ],
+    "example-393": [
+      "walk_right"
+    ],
+    "example-394": [
+      "walk_right"
+    ],
+    "example-395": [
+      "walk_right"
+    ],
+    "example-396": [
+      "walk_right"
+    ],
+    "example-397": [
+      "walk_right"
+    ],
+    "example-398": [
+      "walk_right"
+    ],
+    "example-399": [
+      "walk_right"
+    ],
+    "example-4": [
+      "idle"
+    ],
+    "example-40": [
+      "idle"
+    ],
+    "example-400": [
+      "walk_right"
+    ],
+    "example-401": [
+      "walk_right"
+    ],
+    "example-402": [
+      "walk_right"
+    ],
+    "example-403": [
+      "walk_right"
+    ],
+    "example-404": [
+      "walk_right"
+    ],
+    "example-405": [
+      "walk_right"
+    ],
+    "example-406": [
+      "walk_right"
+    ],
+    "example-407": [
+      "walk_right"
+    ],
+    "example-408": [
+      "walk_right"
+    ],
+    "example-409": [
+      "walk_right"
+    ],
+    "example-41": [
+      "idle"
+    ],
+    "example-410": [
+      "walk_right"
+    ],
+    "example-411": [
+      "walk_right"
+    ],
+    "example-412": [
+      "walk_front"
+    ],
+    "example-413": [
+      "walk_front"
+    ],
+    "example-414": [
+      "walk_front"
+    ],
+    "example-415": [
+      "walk_front"
+    ],
+    "example-416": [
+      "walk_front"
+    ],
+    "example-417": [
+      "walk_front"
+    ],
+    "example-418": [
+      "walk_front"
+    ],
+    "example-419": [
+      "walk_front"
+    ],
+    "example-42": [
+      "idle"
+    ],
+    "example-420": [
+      "walk_front"
+    ],
+    "example-421": [
+      "walk_front"
+    ],
+    "example-422": [
+      "walk_front"
+    ],
+    "example-423": [
+      "walk_front"
+    ],
+    "example-424": [
+      "walk_front"
+    ],
+    "example-425": [
+      "walk_front"
+    ],
+    "example-426": [
+      "walk_front"
+    ],
+    "example-427": [
+      "walk_front"
+    ],
+    "example-428": [
+      "walk_front"
+    ],
+    "example-429": [
+      "walk_front"
+    ],
+    "example-43": [
+      "idle"
+    ],
+    "example-430": [
+      "walk_front"
+    ],
+    "example-431": [
+      "walk_front"
+    ],
+    "example-432": [
+      "walk_front"
+    ],
+    "example-433": [
+      "walk_front"
+    ],
+    "example-434": [
+      "walk_front"
+    ],
+    "example-435": [
+      "walk_front"
+    ],
+    "example-436": [
+      "walk_front"
+    ],
+    "example-437": [
+      "walk_front"
+    ],
+    "example-438": [
+      "walk_front"
+    ],
+    "example-439": [
+      "walk_front"
+    ],
+    "example-44": [
+      "idle"
+    ],
+    "example-440": [
+      "walk_front"
+    ],
+    "example-441": [
+      "walk_front"
+    ],
+    "example-442": [
+      "walk_front"
+    ],
+    "example-443": [
+      "walk_front"
+    ],
+    "example-444": [
+      "walk_front"
+    ],
+    "example-445": [
+      "walk_front"
+    ],
+    "example-446": [
+      "walk_front"
+    ],
+    "example-447": [
+      "walk_front"
+    ],
+    "example-448": [
+      "walk_front"
+    ],
+    "example-449": [
+      "walk_front"
+    ],
+    "example-45": [
+      "idle"
+    ],
+    "example-450": [
+      "walk_front"
+    ],
+    "example-451": [
+      "walk_front"
+    ],
+    "example-452": [
+      "walk_front"
+    ],
+    "example-453": [
+      "walk_front"
+    ],
+    "example-454": [
+      "walk_front"
+    ],
+    "example-455": [
+      "walk_front"
+    ],
+    "example-456": [
+      "walk_front"
+    ],
+    "example-457": [
+      "walk_front"
+    ],
+    "example-458": [
+      "walk_front"
+    ],
+    "example-459": [
+      "walk_front"
+    ],
+    "example-46": [
+      "idle"
+    ],
+    "example-460": [
+      "walk_front"
+    ],
+    "example-461": [
+      "walk_front"
+    ],
+    "example-462": [
+      "walk_front"
+    ],
+    "example-463": [
+      "walk_front"
+    ],
+    "example-464": [
+      "walk_front"
+    ],
+    "example-465": [
+      "walk_front"
+    ],
+    "example-466": [
+      "walk_front"
+    ],
+    "example-467": [
+      "walk_front"
+    ],
+    "example-468": [
+      "walk_front"
+    ],
+    "example-469": [
+      "walk_front"
+    ],
+    "example-47": [
+      "idle"
+    ],
+    "example-470": [
+      "walk_front"
+    ],
+    "example-471": [
+      "walk_front"
+    ],
+    "example-472": [
+      "walk_front"
+    ],
+    "example-473": [
+      "walk_front"
+    ],
+    "example-474": [
+      "walk_front"
+    ],
+    "example-475": [
+      "walk_front"
+    ],
+    "example-476": [
+      "walk_front"
+    ],
+    "example-477": [
+      "walk_front"
+    ],
+    "example-478": [
+      "walk_front"
+    ],
+    "example-479": [
+      "walk_front"
+    ],
+    "example-48": [
+      "idle"
+    ],
+    "example-480": [
+      "walk_front"
+    ],
+    "example-481": [
+      "walk_front"
+    ],
+    "example-482": [
+      "walk_front"
+    ],
+    "example-483": [
+      "walk_front"
+    ],
+    "example-484": [
+      "walk_front"
+    ],
+    "example-485": [
+      "walk_front"
+    ],
+    "example-486": [
+      "walk_front"
+    ],
+    "example-487": [
+      "walk_front"
+    ],
+    "example-488": [
+      "walk_front"
+    ],
+    "example-489": [
+      "walk_front"
+    ],
+    "example-49": [
+      "idle"
+    ],
+    "example-490": [
+      "walk_front"
+    ],
+    "example-491": [
+      "walk_front"
+    ],
+    "example-492": [
+      "walk_front"
+    ],
+    "example-493": [
+      "walk_front"
+    ],
+    "example-494": [
+      "walk_front"
+    ],
+    "example-495": [
+      "walk_front"
+    ],
+    "example-496": [
+      "walk_front"
+    ],
+    "example-497": [
+      "walk_front"
+    ],
+    "example-498": [
+      "walk_front"
+    ],
+    "example-499": [
+      "walk_front"
+    ],
+    "example-5": [
+      "idle"
+    ],
+    "example-50": [
+      "idle"
+    ],
+    "example-500": [
+      "walk_front"
+    ],
+    "example-501": [
+      "walk_front"
+    ],
+    "example-502": [
+      "walk_front"
+    ],
+    "example-503": [
+      "walk_front"
+    ],
+    "example-504": [
+      "walk_front"
+    ],
+    "example-505": [
+      "walk_front"
+    ],
+    "example-506": [
+      "walk_front"
+    ],
+    "example-507": [
+      "walk_front"
+    ],
+    "example-508": [
+      "walk_front"
+    ],
+    "example-509": [
+      "walk_front"
+    ],
+    "example-51": [
+      "idle"
+    ],
+    "example-510": [
+      "walk_front"
+    ],
+    "example-511": [
+      "walk_front"
+    ],
+    "example-512": [
+      "walk_front"
+    ],
+    "example-513": [
+      "walk_front"
+    ],
+    "example-514": [
+      "walk_front"
+    ],
+    "example-515": [
+      "walk_front"
+    ],
+    "example-516": [
+      "walk_front"
+    ],
+    "example-517": [
+      "walk_front"
+    ],
+    "example-518": [
+      "walk_front"
+    ],
+    "example-519": [
+      "walk_front"
+    ],
+    "example-52": [
+      "idle"
+    ],
+    "example-520": [
+      "walk_front"
+    ],
+    "example-521": [
+      "walk_front"
+    ],
+    "example-522": [
+      "walk_front"
+    ],
+    "example-523": [
+      "walk_front"
+    ],
+    "example-524": [
+      "walk_front"
+    ],
+    "example-525": [
+      "walk_front"
+    ],
+    "example-526": [
+      "walk_front"
+    ],
+    "example-527": [
+      "walk_front"
+    ],
+    "example-528": [
+      "walk_front"
+    ],
+    "example-529": [
+      "walk_front"
+    ],
+    "example-53": [
+      "idle"
+    ],
+    "example-530": [
+      "walk_front"
+    ],
+    "example-531": [
+      "walk_front"
+    ],
+    "example-532": [
+      "walk_front"
+    ],
+    "example-533": [
+      "walk_front"
+    ],
+    "example-534": [
+      "walk_front"
+    ],
+    "example-535": [
+      "walk_front"
+    ],
+    "example-536": [
+      "walk_front"
+    ],
+    "example-537": [
+      "walk_front"
+    ],
+    "example-538": [
+      "walk_front"
+    ],
+    "example-539": [
+      "walk_front"
+    ],
+    "example-54": [
+      "idle"
+    ],
+    "example-540": [
+      "walk_front"
+    ],
+    "example-541": [
+      "walk_front"
+    ],
+    "example-542": [
+      "walk_front"
+    ],
+    "example-543": [
+      "walk_front"
+    ],
+    "example-544": [
+      "walk_front"
+    ],
+    "example-545": [
+      "walk_front"
+    ],
+    "example-546": [
+      "walk_front"
+    ],
+    "example-547": [
+      "walk_front"
+    ],
+    "example-548": [
+      "walk_front"
+    ],
+    "example-549": [
+      "walk_front"
+    ],
+    "example-55": [
+      "idle"
+    ],
+    "example-550": [
+      "walk_front"
+    ],
+    "example-551": [
+      "walk_front"
+    ],
+    "example-552": [
+      "walk_front"
+    ],
+    "example-553": [
+      "walk_front"
+    ],
+    "example-554": [
+      "walk_front"
+    ],
+    "example-555": [
+      "walk_front"
+    ],
+    "example-556": [
+      "walk_front"
+    ],
+    "example-557": [
+      "walk_front"
+    ],
+    "example-558": [
+      "walk_front"
+    ],
+    "example-559": [
+      "walk_front"
+    ],
+    "example-56": [
+      "idle"
+    ],
+    "example-560": [
+      "walk_front"
+    ],
+    "example-561": [
+      "walk_front"
+    ],
+    "example-562": [
+      "walk_front"
+    ],
+    "example-563": [
+      "walk_front"
+    ],
+    "example-564": [
+      "walk_front"
+    ],
+    "example-565": [
+      "walk_front"
+    ],
+    "example-566": [
+      "walk_front"
+    ],
+    "example-567": [
+      "walk_front"
+    ],
+    "example-568": [
+      "walk_front"
+    ],
+    "example-569": [
+      "walk_front"
+    ],
+    "example-57": [
+      "idle"
+    ],
+    "example-570": [
+      "walk_front"
+    ],
+    "example-571": [
+      "walk_front"
+    ],
+    "example-572": [
+      "walk_front"
+    ],
+    "example-573": [
+      "walk_front"
+    ],
+    "example-574": [
+      "walk_front"
+    ],
+    "example-575": [
+      "walk_front"
+    ],
+    "example-576": [
+      "walk_front"
+    ],
+    "example-577": [
+      "walk_front"
+    ],
+    "example-578": [
+      "walk_front"
+    ],
+    "example-579": [
+      "walk_front"
+    ],
+    "example-58": [
+      "idle"
+    ],
+    "example-580": [
+      "walk_front"
+    ],
+    "example-581": [
+      "walk_front"
+    ],
+    "example-582": [
+      "walk_front"
+    ],
+    "example-583": [
+      "walk_front"
+    ],
+    "example-584": [
+      "walk_front"
+    ],
+    "example-585": [
+      "walk_front"
+    ],
+    "example-586": [
+      "walk_front"
+    ],
+    "example-587": [
+      "walk_front"
+    ],
+    "example-588": [
+      "walk_front"
+    ],
+    "example-589": [
+      "walk_front"
+    ],
+    "example-59": [
+      "idle"
+    ],
+    "example-590": [
+      "walk_front"
+    ],
+    "example-591": [
+      "walk_front"
+    ],
+    "example-592": [
+      "walk_front"
+    ],
+    "example-593": [
+      "walk_front"
+    ],
+    "example-594": [
+      "walk_front"
+    ],
+    "example-595": [
+      "walk_front"
+    ],
+    "example-596": [
+      "walk_front"
+    ],
+    "example-597": [
+      "walk_front"
+    ],
+    "example-598": [
+      "walk_front"
+    ],
+    "example-599": [
+      "walk_front"
+    ],
+    "example-6": [
+      "idle"
+    ],
+    "example-60": [
+      "idle"
+    ],
+    "example-600": [
+      "walk_front"
+    ],
+    "example-601": [
+      "walk_front"
+    ],
+    "example-602": [
+      "walk_front"
+    ],
+    "example-603": [
+      "walk_front"
+    ],
+    "example-604": [
+      "walk_front"
+    ],
+    "example-605": [
+      "walk_front"
+    ],
+    "example-606": [
+      "walk_front"
+    ],
+    "example-607": [
+      "walk_front"
+    ],
+    "example-608": [
+      "walk_front"
+    ],
+    "example-609": [
+      "walk_front"
+    ],
+    "example-61": [
+      "idle"
+    ],
+    "example-610": [
+      "walk_front"
+    ],
+    "example-611": [
+      "walk_front"
+    ],
+    "example-612": [
+      "walk_front"
+    ],
+    "example-613": [
+      "walk_front"
+    ],
+    "example-614": [
+      "walk_front"
+    ],
+    "example-615": [
+      "walk_front"
+    ],
+    "example-616": [
+      "walk_front"
+    ],
+    "example-617": [
+      "walk_front"
+    ],
+    "example-618": [
+      "walk_back"
+    ],
+    "example-619": [
+      "walk_back"
+    ],
+    "example-62": [
+      "idle"
+    ],
+    "example-620": [
+      "walk_back"
+    ],
+    "example-621": [
+      "walk_back"
+    ],
+    "example-622": [
+      "walk_back"
+    ],
+    "example-623": [
+      "walk_back"
+    ],
+    "example-624": [
+      "walk_back"
+    ],
+    "example-625": [
+      "walk_back"
+    ],
+    "example-626": [
+      "walk_back"
+    ],
+    "example-627": [
+      "walk_back"
+    ],
+    "example-628": [
+      "walk_back"
+    ],
+    "example-629": [
+      "walk_back"
+    ],
+    "example-63": [
+      "idle"
+    ],
+    "example-630": [
+      "walk_back"
+    ],
+    "example-631": [
+      "walk_back"
+    ],
+    "example-632": [
+      "walk_back"
+    ],
+    "example-633": [
+      "walk_back"
+    ],
+    "example-634": [
+      "walk_back"
+    ],
+    "example-635": [
+      "walk_back"
+    ],
+    "example-636": [
+      "walk_back"
+    ],
+    "example-637": [
+      "walk_back"
+    ],
+    "example-638": [
+      "walk_back"
+    ],
+    "example-639": [
+      "walk_back"
+    ],
+    "example-64": [
+      "idle"
+    ],
+    "example-640": [
+      "walk_back"
+    ],
+    "example-641": [
+      "walk_back"
+    ],
+    "example-642": [
+      "walk_back"
+    ],
+    "example-643": [
+      "walk_back"
+    ],
+    "example-644": [
+      "walk_back"
+    ],
+    "example-645": [
+      "walk_back"
+    ],
+    "example-646": [
+      "walk_back"
+    ],
+    "example-647": [
+      "walk_back"
+    ],
+    "example-648": [
+      "walk_back"
+    ],
+    "example-649": [
+      "walk_back"
+    ],
+    "example-65": [
+      "idle"
+    ],
+    "example-650": [
+      "walk_back"
+    ],
+    "example-651": [
+      "walk_back"
+    ],
+    "example-652": [
+      "walk_back"
+    ],
+    "example-653": [
+      "walk_back"
+    ],
+    "example-654": [
+      "walk_back"
+    ],
+    "example-655": [
+      "walk_back"
+    ],
+    "example-656": [
+      "walk_back"
+    ],
+    "example-657": [
+      "walk_back"
+    ],
+    "example-658": [
+      "walk_back"
+    ],
+    "example-659": [
+      "walk_back"
+    ],
+    "example-66": [
+      "idle"
+    ],
+    "example-660": [
+      "walk_back"
+    ],
+    "example-661": [
+      "walk_back"
+    ],
+    "example-662": [
+      "walk_back"
+    ],
+    "example-663": [
+      "walk_back"
+    ],
+    "example-664": [
+      "walk_back"
+    ],
+    "example-665": [
+      "walk_back"
+    ],
+    "example-666": [
+      "walk_back"
+    ],
+    "example-667": [
+      "walk_back"
+    ],
+    "example-668": [
+      "walk_back"
+    ],
+    "example-669": [
+      "walk_back"
+    ],
+    "example-67": [
+      "idle"
+    ],
+    "example-670": [
+      "walk_back"
+    ],
+    "example-671": [
+      "walk_back"
+    ],
+    "example-672": [
+      "walk_back"
+    ],
+    "example-673": [
+      "walk_back"
+    ],
+    "example-674": [
+      "walk_back"
+    ],
+    "example-675": [
+      "walk_back"
+    ],
+    "example-676": [
+      "walk_back"
+    ],
+    "example-677": [
+      "walk_back"
+    ],
+    "example-678": [
+      "walk_back"
+    ],
+    "example-679": [
+      "walk_back"
+    ],
+    "example-68": [
+      "idle"
+    ],
+    "example-680": [
+      "walk_back"
+    ],
+    "example-681": [
+      "walk_back"
+    ],
+    "example-682": [
+      "walk_back"
+    ],
+    "example-683": [
+      "walk_back"
+    ],
+    "example-684": [
+      "walk_back"
+    ],
+    "example-685": [
+      "walk_back"
+    ],
+    "example-686": [
+      "walk_back"
+    ],
+    "example-687": [
+      "walk_back"
+    ],
+    "example-688": [
+      "walk_back"
+    ],
+    "example-689": [
+      "walk_back"
+    ],
+    "example-69": [
+      "idle"
+    ],
+    "example-690": [
+      "walk_back"
+    ],
+    "example-691": [
+      "walk_back"
+    ],
+    "example-692": [
+      "walk_back"
+    ],
+    "example-693": [
+      "walk_back"
+    ],
+    "example-694": [
+      "walk_back"
+    ],
+    "example-695": [
+      "walk_back"
+    ],
+    "example-696": [
+      "walk_back"
+    ],
+    "example-697": [
+      "walk_back"
+    ],
+    "example-698": [
+      "walk_back"
+    ],
+    "example-699": [
+      "walk_back"
+    ],
+    "example-7": [
+      "idle"
+    ],
+    "example-70": [
+      "idle"
+    ],
+    "example-700": [
+      "walk_back"
+    ],
+    "example-701": [
+      "walk_back"
+    ],
+    "example-702": [
+      "walk_back"
+    ],
+    "example-703": [
+      "walk_back"
+    ],
+    "example-704": [
+      "walk_back"
+    ],
+    "example-705": [
+      "walk_back"
+    ],
+    "example-706": [
+      "walk_back"
+    ],
+    "example-707": [
+      "walk_back"
+    ],
+    "example-708": [
+      "walk_back"
+    ],
+    "example-709": [
+      "walk_back"
+    ],
+    "example-71": [
+      "idle"
+    ],
+    "example-710": [
+      "walk_back"
+    ],
+    "example-711": [
+      "walk_back"
+    ],
+    "example-712": [
+      "walk_back"
+    ],
+    "example-713": [
+      "walk_back"
+    ],
+    "example-714": [
+      "walk_back"
+    ],
+    "example-715": [
+      "walk_back"
+    ],
+    "example-716": [
+      "walk_back"
+    ],
+    "example-717": [
+      "walk_back"
+    ],
+    "example-718": [
+      "walk_back"
+    ],
+    "example-719": [
+      "walk_back"
+    ],
+    "example-72": [
+      "idle"
+    ],
+    "example-720": [
+      "walk_back"
+    ],
+    "example-721": [
+      "walk_back"
+    ],
+    "example-722": [
+      "walk_back"
+    ],
+    "example-723": [
+      "walk_back"
+    ],
+    "example-724": [
+      "walk_back"
+    ],
+    "example-725": [
+      "walk_back"
+    ],
+    "example-726": [
+      "walk_back"
+    ],
+    "example-727": [
+      "walk_back"
+    ],
+    "example-728": [
+      "walk_back"
+    ],
+    "example-729": [
+      "walk_back"
+    ],
+    "example-73": [
+      "idle"
+    ],
+    "example-730": [
+      "walk_back"
+    ],
+    "example-731": [
+      "walk_back"
+    ],
+    "example-732": [
+      "walk_back"
+    ],
+    "example-733": [
+      "walk_back"
+    ],
+    "example-734": [
+      "walk_back"
+    ],
+    "example-735": [
+      "walk_back"
+    ],
+    "example-736": [
+      "walk_back"
+    ],
+    "example-737": [
+      "walk_back"
+    ],
+    "example-738": [
+      "walk_back"
+    ],
+    "example-739": [
+      "walk_back"
+    ],
+    "example-74": [
+      "idle"
+    ],
+    "example-740": [
+      "walk_back"
+    ],
+    "example-741": [
+      "walk_back"
+    ],
+    "example-742": [
+      "walk_back"
+    ],
+    "example-743": [
+      "walk_back"
+    ],
+    "example-744": [
+      "walk_back"
+    ],
+    "example-745": [
+      "walk_back"
+    ],
+    "example-746": [
+      "walk_back"
+    ],
+    "example-747": [
+      "walk_back"
+    ],
+    "example-748": [
+      "walk_back"
+    ],
+    "example-749": [
+      "walk_back"
+    ],
+    "example-75": [
+      "idle"
+    ],
+    "example-750": [
+      "walk_back"
+    ],
+    "example-751": [
+      "walk_back"
+    ],
+    "example-752": [
+      "walk_back"
+    ],
+    "example-753": [
+      "walk_back"
+    ],
+    "example-754": [
+      "walk_back"
+    ],
+    "example-755": [
+      "walk_back"
+    ],
+    "example-756": [
+      "walk_back"
+    ],
+    "example-757": [
+      "walk_back"
+    ],
+    "example-758": [
+      "walk_back"
+    ],
+    "example-759": [
+      "walk_back"
+    ],
+    "example-76": [
+      "idle"
+    ],
+    "example-760": [
+      "walk_back"
+    ],
+    "example-761": [
+      "walk_back"
+    ],
+    "example-762": [
+      "walk_back"
+    ],
+    "example-763": [
+      "walk_back"
+    ],
+    "example-764": [
+      "walk_back"
+    ],
+    "example-765": [
+      "walk_back"
+    ],
+    "example-766": [
+      "walk_back"
+    ],
+    "example-767": [
+      "jump"
+    ],
+    "example-768": [
+      "jump"
+    ],
+    "example-769": [
+      "jump"
+    ],
+    "example-77": [
+      "idle"
+    ],
+    "example-770": [
+      "jump"
+    ],
+    "example-771": [
+      "jump"
+    ],
+    "example-772": [
+      "jump"
+    ],
+    "example-773": [
+      "jump"
+    ],
+    "example-774": [
+      "jump"
+    ],
+    "example-775": [
+      "jump"
+    ],
+    "example-776": [
+      "jump"
+    ],
+    "example-777": [
+      "jump"
+    ],
+    "example-778": [
+      "jump"
+    ],
+    "example-779": [
+      "jump"
+    ],
+    "example-78": [
+      "idle"
+    ],
+    "example-780": [
+      "jump"
+    ],
+    "example-781": [
+      "jump"
+    ],
+    "example-782": [
+      "jump"
+    ],
+    "example-783": [
+      "jump"
+    ],
+    "example-784": [
+      "jump"
+    ],
+    "example-785": [
+      "jump"
+    ],
+    "example-786": [
+      "jump"
+    ],
+    "example-787": [
+      "jump"
+    ],
+    "example-788": [
+      "jump"
+    ],
+    "example-789": [
+      "jump"
+    ],
+    "example-79": [
+      "idle"
+    ],
+    "example-790": [
+      "jump"
+    ],
+    "example-791": [
+      "jump"
+    ],
+    "example-792": [
+      "jump"
+    ],
+    "example-793": [
+      "jump"
+    ],
+    "example-794": [
+      "jump"
+    ],
+    "example-795": [
+      "jump"
+    ],
+    "example-796": [
+      "jump"
+    ],
+    "example-797": [
+      "jump"
+    ],
+    "example-798": [
+      "jump"
+    ],
+    "example-799": [
+      "jump"
+    ],
+    "example-8": [
+      "idle"
+    ],
+    "example-80": [
+      "idle"
+    ],
+    "example-800": [
+      "jump"
+    ],
+    "example-801": [
+      "jump"
+    ],
+    "example-802": [
+      "jump"
+    ],
+    "example-803": [
+      "jump"
+    ],
+    "example-804": [
+      "jump"
+    ],
+    "example-805": [
+      "jump"
+    ],
+    "example-806": [
+      "jump"
+    ],
+    "example-807": [
+      "jump"
+    ],
+    "example-808": [
+      "jump"
+    ],
+    "example-809": [
+      "jump"
+    ],
+    "example-81": [
+      "idle"
+    ],
+    "example-810": [
+      "jump"
+    ],
+    "example-811": [
+      "jump"
+    ],
+    "example-812": [
+      "jump"
+    ],
+    "example-813": [
+      "jump"
+    ],
+    "example-814": [
+      "jump"
+    ],
+    "example-815": [
+      "jump"
+    ],
+    "example-816": [
+      "jump"
+    ],
+    "example-817": [
+      "jump"
+    ],
+    "example-818": [
+      "jump"
+    ],
+    "example-819": [
+      "jump"
+    ],
+    "example-82": [
+      "idle"
+    ],
+    "example-820": [
+      "jump"
+    ],
+    "example-821": [
+      "jump"
+    ],
+    "example-822": [
+      "jump"
+    ],
+    "example-823": [
+      "jump"
+    ],
+    "example-824": [
+      "jump"
+    ],
+    "example-825": [
+      "jump"
+    ],
+    "example-826": [
+      "jump"
+    ],
+    "example-827": [
+      "jump"
+    ],
+    "example-828": [
+      "jump"
+    ],
+    "example-829": [
+      "jump"
+    ],
+    "example-83": [
+      "idle"
+    ],
+    "example-830": [
+      "jump"
+    ],
+    "example-831": [
+      "jump"
+    ],
+    "example-832": [
+      "jump"
+    ],
+    "example-833": [
+      "jump"
+    ],
+    "example-834": [
+      "jump"
+    ],
+    "example-835": [
+      "jump"
+    ],
+    "example-836": [
+      "jump"
+    ],
+    "example-837": [
+      "jump"
+    ],
+    "example-838": [
+      "jump"
+    ],
+    "example-839": [
+      "jump"
+    ],
+    "example-84": [
+      "idle"
+    ],
+    "example-840": [
+      "jump"
+    ],
+    "example-841": [
+      "jump"
+    ],
+    "example-842": [
+      "jump"
+    ],
+    "example-843": [
+      "jump"
+    ],
+    "example-844": [
+      "jump"
+    ],
+    "example-845": [
+      "jump"
+    ],
+    "example-846": [
+      "jump"
+    ],
+    "example-847": [
+      "jump"
+    ],
+    "example-848": [
+      "jump"
+    ],
+    "example-849": [
+      "jump"
+    ],
+    "example-85": [
+      "idle"
+    ],
+    "example-850": [
+      "jump"
+    ],
+    "example-851": [
+      "jump"
+    ],
+    "example-852": [
+      "jump"
+    ],
+    "example-853": [
+      "jump"
+    ],
+    "example-854": [
+      "jump"
+    ],
+    "example-855": [
+      "jump"
+    ],
+    "example-856": [
+      "jump"
+    ],
+    "example-857": [
+      "jump"
+    ],
+    "example-858": [
+      "jump"
+    ],
+    "example-859": [
+      "jump"
+    ],
+    "example-86": [
+      "idle"
+    ],
+    "example-860": [
+      "jump"
+    ],
+    "example-861": [
+      "jump"
+    ],
+    "example-862": [
+      "jump"
+    ],
+    "example-863": [
+      "jump"
+    ],
+    "example-864": [
+      "jump"
+    ],
+    "example-865": [
+      "jump"
+    ],
+    "example-866": [
+      "jump"
+    ],
+    "example-867": [
+      "jump"
+    ],
+    "example-868": [
+      "jump"
+    ],
+    "example-869": [
+      "jump"
+    ],
+    "example-87": [
+      "idle"
+    ],
+    "example-870": [
+      "jump"
+    ],
+    "example-871": [
+      "jump"
+    ],
+    "example-872": [
+      "jump"
+    ],
+    "example-873": [
+      "jump"
+    ],
+    "example-874": [
+      "jump"
+    ],
+    "example-875": [
+      "jump"
+    ],
+    "example-876": [
+      "jump"
+    ],
+    "example-877": [
+      "jump"
+    ],
+    "example-878": [
+      "jump"
+    ],
+    "example-879": [
+      "jump"
+    ],
+    "example-88": [
+      "idle"
+    ],
+    "example-880": [
+      "jump"
+    ],
+    "example-881": [
+      "jump"
+    ],
+    "example-882": [
+      "jump"
+    ],
+    "example-883": [
+      "jump"
+    ],
+    "example-884": [
+      "jump"
+    ],
+    "example-885": [
+      "jump"
+    ],
+    "example-886": [
+      "jump"
+    ],
+    "example-887": [
+      "jump"
+    ],
+    "example-888": [
+      "jump"
+    ],
+    "example-889": [
+      "jump"
+    ],
+    "example-89": [
+      "idle"
+    ],
+    "example-890": [
+      "jump"
+    ],
+    "example-891": [
+      "jump"
+    ],
+    "example-892": [
+      "jump"
+    ],
+    "example-893": [
+      "jump"
+    ],
+    "example-894": [
+      "jump"
+    ],
+    "example-895": [
+      "jump"
+    ],
+    "example-896": [
+      "jump"
+    ],
+    "example-897": [
+      "jump"
+    ],
+    "example-898": [
+      "jump"
+    ],
+    "example-899": [
+      "jump"
+    ],
+    "example-9": [
+      "idle"
+    ],
+    "example-90": [
+      "idle"
+    ],
+    "example-900": [
+      "crouch"
+    ],
+    "example-901": [
+      "crouch"
+    ],
+    "example-902": [
+      "crouch"
+    ],
+    "example-903": [
+      "crouch"
+    ],
+    "example-904": [
+      "crouch"
+    ],
+    "example-905": [
+      "crouch"
+    ],
+    "example-906": [
+      "crouch"
+    ],
+    "example-907": [
+      "crouch"
+    ],
+    "example-908": [
+      "crouch"
+    ],
+    "example-909": [
+      "crouch"
+    ],
+    "example-91": [
+      "idle"
+    ],
+    "example-910": [
+      "crouch"
+    ],
+    "example-911": [
+      "crouch"
+    ],
+    "example-912": [
+      "crouch"
+    ],
+    "example-913": [
+      "crouch"
+    ],
+    "example-914": [
+      "crouch"
+    ],
+    "example-915": [
+      "crouch"
+    ],
+    "example-916": [
+      "crouch"
+    ],
+    "example-917": [
+      "crouch"
+    ],
+    "example-918": [
+      "crouch"
+    ],
+    "example-919": [
+      "crouch"
+    ],
+    "example-92": [
+      "idle"
+    ],
+    "example-920": [
+      "crouch"
+    ],
+    "example-921": [
+      "crouch"
+    ],
+    "example-922": [
+      "crouch"
+    ],
+    "example-923": [
+      "crouch"
+    ],
+    "example-924": [
+      "crouch"
+    ],
+    "example-925": [
+      "crouch"
+    ],
+    "example-926": [
+      "crouch"
+    ],
+    "example-927": [
+      "crouch"
+    ],
+    "example-928": [
+      "crouch"
+    ],
+    "example-929": [
+      "crouch"
+    ],
+    "example-93": [
+      "idle"
+    ],
+    "example-930": [
+      "crouch"
+    ],
+    "example-931": [
+      "crouch"
+    ],
+    "example-932": [
+      "crouch"
+    ],
+    "example-933": [
+      "crouch"
+    ],
+    "example-934": [
+      "crouch"
+    ],
+    "example-935": [
+      "crouch"
+    ],
+    "example-936": [
+      "crouch"
+    ],
+    "example-937": [
+      "crouch"
+    ],
+    "example-938": [
+      "crouch"
+    ],
+    "example-939": [
+      "crouch"
+    ],
+    "example-94": [
+      "idle"
+    ],
+    "example-940": [
+      "crouch"
+    ],
+    "example-941": [
+      "crouch"
+    ],
+    "example-942": [
+      "crouch"
+    ],
+    "example-943": [
+      "crouch"
+    ],
+    "example-944": [
+      "crouch"
+    ],
+    "example-945": [
+      "crouch"
+    ],
+    "example-946": [
+      "crouch"
+    ],
+    "example-947": [
+      "crouch"
+    ],
+    "example-948": [
+      "crouch"
+    ],
+    "example-949": [
+      "crouch"
+    ],
+    "example-95": [
+      "idle"
+    ],
+    "example-950": [
+      "crouch"
+    ],
+    "example-951": [
+      "crouch"
+    ],
+    "example-952": [
+      "crouch"
+    ],
+    "example-953": [
+      "crouch"
+    ],
+    "example-954": [
+      "crouch"
+    ],
+    "example-955": [
+      "crouch"
+    ],
+    "example-956": [
+      "crouch"
+    ],
+    "example-957": [
+      "crouch"
+    ],
+    "example-958": [
+      "crouch"
+    ],
+    "example-959": [
+      "crouch"
+    ],
+    "example-96": [
+      "idle"
+    ],
+    "example-960": [
+      "crouch"
+    ],
+    "example-961": [
+      "crouch"
+    ],
+    "example-962": [
+      "crouch"
+    ],
+    "example-963": [
+      "crouch"
+    ],
+    "example-964": [
+      "crouch"
+    ],
+    "example-965": [
+      "crouch"
+    ],
+    "example-966": [
+      "crouch"
+    ],
+    "example-967": [
+      "crouch"
+    ],
+    "example-968": [
+      "crouch"
+    ],
+    "example-969": [
+      "crouch"
+    ],
+    "example-97": [
+      "idle"
+    ],
+    "example-970": [
+      "crouch"
+    ],
+    "example-971": [
+      "crouch"
+    ],
+    "example-972": [
+      "crouch"
+    ],
+    "example-973": [
+      "crouch"
+    ],
+    "example-974": [
+      "crouch"
+    ],
+    "example-975": [
+      "crouch"
+    ],
+    "example-976": [
+      "crouch"
+    ],
+    "example-977": [
+      "crouch"
+    ],
+    "example-978": [
+      "crouch"
+    ],
+    "example-979": [
+      "crouch"
+    ],
+    "example-98": [
+      "idle"
+    ],
+    "example-980": [
+      "crouch"
+    ],
+    "example-981": [
+      "crouch"
+    ],
+    "example-982": [
+      "crouch"
+    ],
+    "example-983": [
+      "crouch"
+    ],
+    "example-984": [
+      "crouch"
+    ],
+    "example-985": [
+      "crouch"
+    ],
+    "example-986": [
+      "crouch"
+    ],
+    "example-987": [
+      "crouch"
+    ],
+    "example-988": [
+      "crouch"
+    ],
+    "example-989": [
+      "crouch"
+    ],
+    "example-99": [
+      "idle"
+    ],
+    "example-990": [
+      "crouch"
+    ],
+    "example-991": [
+      "crouch"
+    ],
+    "example-992": [
+      "crouch"
+    ],
+    "example-993": [
+      "crouch"
+    ],
+    "example-994": [
+      "crouch"
+    ],
+    "example-995": [
+      "crouch"
+    ],
+    "example-996": [
+      "crouch"
+    ],
+    "example-997": [
+      "crouch"
+    ],
+    "example-998": [
+      "crouch"
+    ],
+    "example-999": [
+      "crouch"
+    ]
+  }
+}
