@@ -17,9 +17,9 @@
             justify-content: center;
             align-items: flex-start;
             height: 100vh;
-            margin: 100px;
+            margin: 500px;
             padding-top: 60px;
-            background: white;
+            background: rgb(101, 98, 98);
         }
 
         /* Floating audio start/reset button */
@@ -66,17 +66,18 @@
 
             // Predefined barriers (hand-drawn from your painting)
             barriers = [
-                { x: 0, y: 357, w: 677, h: 24 },
-                { x: 0, y: 294, w: 682, h: 25 },
-                { x: 676, y: 279, w: 184, h: 189 },
-                { x: 3, y: 289, w: 445, h: 15 },
-                { x: 460, y: 464, w: 404, h: 19 },
-                { x: 398, y: 531, w: 472, h: 30 },
-                { x: 927, y: 397, w: 98, h: 27 },
-                { x: 734, y: 174, w: 269, h: 18 },
-                { x: 863, y: 454, w: 184, h: 38 },
-                { x: -4, y: -4, w: 1004, h: 11 },
-                { x: 0, y: 434, w: 376, h: 13 }
+                { x: 0, y: 357, w: 677, h: 24 }, //bottom barrier of walkway
+                { x: 0, y: 294, w: 682, h: 25 }, //top barrier of walkway
+                { x: 676, y: 279, w: 184, h: 189 }, //climb wall
+                { x: 460, y: 464, w: 404, h: 19 }, //bottom middle building top horizontal wall
+                { x: 398, y: 531, w: 472, h: 30 }, //bottom middle building bottom horizontal wall
+                { x: 927, y: 397, w: 98, h: 27 },  // bottom staircass 
+                { x: 734, y: 174, w: 269, h: 18 }, //stair building top horizontal wall
+                { x: 863, y: 454, w: 184, h: 38 }, // botttom right building 
+                { x: -4, y: -4, w: 1004, h: 11 }, // top of the canvas 
+                { x: 0, y: 434, w: 376, h: 13 }, //bottom left building top horizontal wall
+                { x: 0, y: 528, w: 400, h: 32 }, // bottom left building bottom horizontal wall
+                { x: 378, y: 433, w: 29, h: 127 }  //bottom left building vertical barrier 
             ];
 
             // Audio engine handles sample slicing and sound effects
@@ -184,7 +185,7 @@
 
             // Draw the canvas border (purely visual)
             noFill();
-            stroke(0);
+            stroke(100);
             rect(0, 0, width, height);
 
             // Update audio panning using character % position
