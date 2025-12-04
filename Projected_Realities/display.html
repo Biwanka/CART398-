@@ -5,12 +5,68 @@
     <meta charset="utf-8" />
     <title>Magical Character Projection</title>
 
-    <!-- Load p5.js and your game scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
     <script src="js/Character.js"></script>
     <script src="js/AudioEngine.js"></script>
+    <script src="js/GameScene.js"></script>
 
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            background: rgb(101, 98, 98);
+            margin: 500px;
+            padding-top: 60px;
+        }
+
+        #startAudio {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 18px;
+            font-size: 16px;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="startAudio">Start Audio</button>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Magical Character Projection</title> -->
+
+<!-- Load p5.js and your game scripts -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="js/Character.js"></script>
+    <script src="js/AudioEngine.js"></script> -->
+
+<!-- <style>
         /* Page styling and white background for projection */
         body {
             display: flex;
@@ -35,198 +91,199 @@
 </head>
 
 <body>
-    <!-- Required by browsers: user gesture to start audio -->
-    <button id="startAudio">Start Audio</button>
+   Required by browsers: user gesture to start audio -->
+<!-- <button id="startAudio">Start Audio</button>
 
-    <script>
-        /* -----------------------------------------------------
-           GLOBAL VARIABLES
-        ----------------------------------------------------- */
+<script>
+    /* -----------------------------------------------------
+       GLOBAL VARIABLES
+    ----------------------------------------------------- */
 
-        let socket;                 // WebSocket receiving OSC pose labels
-        let poseLabel = "idle";     // Current pose for animation + audio
-        let myCharacter;            // Character instance
-        let audioEngine;            // Manages sample slicing & effects
+    let socket;                 // WebSocket receiving OSC pose labels
+    let poseLabel = "idle";     // Current pose for animation + audio
+    let myCharacter;            // Character instance
+    let audioEngine;            // Manages sample slicing & effects
 
-        let debugMode = true;       // Debug mode toggle (press "D")
-        let barriers = [];          // List of collision rectangles
-        let placingBarrier = null;  // Temporary barrier while drawing
-
-
-        /* -----------------------------------------------------
-           p5.js SETUP — runs once when the sketch loads
-        ----------------------------------------------------- */
-        function setup() {
-            // Create the drawing canvas
-            const canvas = createCanvas(1000, 600);
-            canvas.parent(document.body);
-
-            // Character starts at left side; movement is handled in Character.js
-            myCharacter = new Character(50, 225);
-
-            // Predefined barriers (hand-drawn from your painting)
-            barriers = [
-                // { x: 0, y: 357, w: 677, h: 25 }, //bottom barrier of walkway
-                { x: 0, y: 294, w: 682, h: 25 }, //top barrier of walkway
-                { x: 0, y: 357, w: 683, h: 80 }, // bottom barrier of walkway but the full side of the building
-                { x: 676, y: 279, w: 184, h: 189 }, //climb wall
-                { x: 460, y: 464, w: 404, h: 19 }, //bottom middle building top horizontal wall
-                { x: 398, y: 531, w: 472, h: 30 }, //bottom middle building bottom horizontal wall
-                { x: 927, y: 397, w: 98, h: 27 },  // bottom staircass 
-                { x: 734, y: 174, w: 269, h: 18 }, //stair building top horizontal wall
-                { x: 863, y: 454, w: 184, h: 38 }, // botttom right building 
-                { x: -4, y: -4, w: 1004, h: 11 }, // top of the canvas 
-                { x: 0, y: 434, w: 376, h: 13 }, //bottom left building top horizontal wall
-                { x: 0, y: 528, w: 400, h: 32 }, // bottom left building bottom horizontal wall
-                { x: 378, y: 433, w: 29, h: 127 }, //bottom left building vertical barrier 
-                // { x: -14, y: 382, w: 691, h: 49 }
-            ];
-
-            // Audio engine handles sample slicing and sound effects
-            audioEngine = new AudioEngine({
-                sampleUrl: "assets/sounds/moon_instrumental_sample.mp3",
-                sliceCount: 8
-            });
-
-            /* ----------------------------------------------
-               Start audio only when button is clicked
-               (browser security requirement)
-            ---------------------------------------------- */
-            const startBtn = document.getElementById("startAudio");
-            startBtn.onclick = async () => {
-                await audioEngine.init();
-                if (audioEngine.ctx.state === "suspended") {
-                    await audioEngine.ctx.resume();
-                }
-                startBtn.style.display = "none"; // hide button after starting
-            };
-
-            /* ----------------------------------------------
-               OSC WebSocket connection
-               Receives pose labels from your ML model
-            ---------------------------------------------- */
-            socket = new WebSocket("ws://localhost:8081");
-            socket.onopen = () => console.log("✅ Connected to OSC bridge");
-            socket.onmessage = e => {
-                const data = JSON.parse(e.data);
-
-                // Only process messages that contain pose predictions
-                if (data.address === "/predictpoint" || data.address === "predictpoint") {
-                    poseLabel = data.args[0];     // update animation label
-                    myCharacter.changePose(poseLabel); // choose animation frames
-                    audioEngine.playSlice(poseLabel);   // play corresponding audio slice
-                }
-            };
-        }
+    let debugMode = true;       // Debug mode toggle (press "D")
+    let barriers = [];          // List of collision rectangles
+    let placingBarrier = null;  // Temporary barrier while drawing
 
 
-        /* -----------------------------------------------------
-           KEYBOARD SHORTCUTS
-        ----------------------------------------------------- */
-        function keyPressed() {
-            // Toggle debug mode with D
-            if (key === 'd' || key === 'D') {
-                debugMode = !debugMode;
-                console.log("🔧 Debug Mode:", debugMode ? "ON" : "OFF");
+    /* -----------------------------------------------------
+       p5.js SETUP — runs once when the sketch loads
+    ----------------------------------------------------- */
+    function setup() {
+        // Create the drawing canvas
+        const canvas = createCanvas(1000, 600);
+        canvas.parent(document.body);
+
+        // Character starts at left side; movement is handled in Character.js
+        myCharacter = new Character(50, 225);
+
+        // Predefined barriers (hand-drawn from your painting)
+        barriers = [
+            // { x: 0, y: 357, w: 677, h: 25 }, //bottom barrier of walkway
+            { x: 0, y: 294, w: 682, h: 25 }, //top barrier of walkway
+            { x: 0, y: 357, w: 683, h: 80 }, // bottom barrier of walkway but the full side of the building
+            { x: 676, y: 279, w: 184, h: 189 }, //climb wall
+            { x: 460, y: 464, w: 404, h: 19 }, //bottom middle building top horizontal wall
+            { x: 398, y: 531, w: 472, h: 30 }, //bottom middle building bottom horizontal wall
+            { x: 927, y: 397, w: 98, h: 27 },  // bottom staircass 
+            { x: 734, y: 174, w: 269, h: 18 }, //stair building top horizontal wall
+            { x: 863, y: 454, w: 184, h: 38 }, // botttom right building 
+            { x: -4, y: -4, w: 1004, h: 11 }, // top of the canvas 
+            { x: 0, y: 434, w: 376, h: 13 }, //bottom left building top horizontal wall
+            { x: 0, y: 528, w: 400, h: 32 }, // bottom left building bottom horizontal wall
+            { x: 378, y: 433, w: 29, h: 127 }, //bottom left building vertical barrier 
+            // { x: -14, y: 382, w: 691, h: 49 }
+        ];
+
+        // Audio engine handles sample slicing and sound effects
+        audioEngine = new AudioEngine({
+            sampleUrl: "assets/sounds/moon_instrumental_sample.mp3",
+            sliceCount: 8
+        });
+
+        /* ----------------------------------------------
+           Start audio only when button is clicked
+           (browser security requirement)
+        ---------------------------------------------- */
+        const startBtn = document.getElementById("startAudio");
+        startBtn.onclick = async () => {
+            await audioEngine.init();
+            if (audioEngine.ctx.state === "suspended") {
+                await audioEngine.ctx.resume();
             }
-        }
+            startBtn.style.display = "none"; // hide button after starting
+        };
 
+        /* ----------------------------------------------
+           OSC WebSocket connection
+           Receives pose labels from your ML model
+        ---------------------------------------------- */
+        socket = new WebSocket("ws://localhost:8081");
+        socket.onopen = () => console.log("✅ Connected to OSC bridge");
+        socket.onmessage = e => {
+            const data = JSON.parse(e.data);
 
-        /* -----------------------------------------------------
-           RECTANGLE COLLISION HELPER
-           (checks overlap between character hitbox & barriers)
-        ----------------------------------------------------- */
-        function isColliding(rect, barrier) {
-            return (
-                rect.x < barrier.x + barrier.w &&
-                rect.x + rect.width > barrier.x &&
-                rect.y < barrier.y + barrier.h &&
-                rect.y + rect.height > barrier.y
-            );
-        }
-
-
-        /* -----------------------------------------------------
-           p5.js DRAW LOOP — runs 60 FPS
-        ----------------------------------------------------- */
-        function draw() {
-            background(100); // Light grey so character reads well on projection
-
-            // Save previous position for collision rollback
-            let previousX = myCharacter.x;
-            let previousY = myCharacter.y;
-
-            // Update animation & movement based on pose
-            myCharacter.update(poseLabel, barriers);
-
-            // Get character’s hitbox (comes from Character.js)
-            const hitbox = myCharacter.getCollisionBox();
-
-            // Check collision with every barrier
-            for (let b of barriers) {
-                if (isColliding(hitbox, b)) {
-                    // Roll back to previous safe position
-                    myCharacter.x = previousX;
-                    myCharacter.y = previousY;
-                }
+            // Only process messages that contain pose predictions
+            if (data.address === "/predictpoint" || data.address === "predictpoint") {
+                poseLabel = data.args[0];     // update animation label
+                myCharacter.changePose(poseLabel); // choose animation frames
+                audioEngine.playSlice(poseLabel);   // play corresponding audio slice
             }
+        };
+    }
 
-            // Draw character (includes hitbox if debugMode=true)
-            myCharacter.display(debugMode);
 
-            /* ----------------------------------------------
-               Draw barriers when debugging
-            ---------------------------------------------- */
-            if (debugMode) {
-                noFill();
-                stroke(255, 0, 0);
-                for (let b of barriers) {
-                    rect(b.x, b.y, b.w, b.h);
-                }
-            }
-
-            // Draw the canvas border (purely visual)
-            noFill();
-            stroke(100);
-            rect(0, 0, width, height);
-
-            // Update audio panning using character % position
-            audioEngine.updateFromCharacter(
-                myCharacter.x / width,
-                myCharacter.y / height
-            );
+    /* -----------------------------------------------------
+       KEYBOARD SHORTCUTS
+    ----------------------------------------------------- */
+    function keyPressed() {
+        // Toggle debug mode with D
+        if (key === 'd' || key === 'D') {
+            debugMode = !debugMode;
+            console.log("🔧 Debug Mode:", debugMode ? "ON" : "OFF");
         }
+    }
 
 
-        /* -----------------------------------------------------
-           BARRIER CREATION WITH MOUSE (debug mode only)
-        ----------------------------------------------------- */
+    /* -----------------------------------------------------
+       RECTANGLE COLLISION HELPER
+       (checks overlap between character hitbox & barriers)
+    ----------------------------------------------------- */
+    function isColliding(rect, barrier) {
+        return (
+            rect.x < barrier.x + barrier.w &&
+            rect.x + rect.width > barrier.x &&
+            rect.y < barrier.y + barrier.h &&
+            rect.y + rect.height > barrier.y
+        );
+    } -
 
-        // Start drawing a new barrier
-        function mousePressed() {
-            if (!debugMode) return;
+    /* -----------------------------------------------------
+       p5.js DRAW LOOP — runs 60 FPS
+    ----------------------------------------------------- */
+    // function draw() {
+    //     background(100); // Light grey so character reads well on projection
 
-            placingBarrier = { x: mouseX, y: mouseY, w: 0, h: 0 };
-            barriers.push(placingBarrier);
-        }
+    //     // Save previous position for collision rollback
+    //     let previousX = myCharacter.x;
+    //     let previousY = myCharacter.y;
 
-        // Resize while dragging
-        function mouseDragged() {
-            if (placingBarrier) {
-                placingBarrier.w = mouseX - placingBarrier.x;
-                placingBarrier.h = mouseY - placingBarrier.y;
-            }
-        }
+    //     // Update animation & movement based on pose
+    //     myCharacter.update(poseLabel, barriers);
 
-        // Finish barrier and print it in console for copy/paste
-        function mouseReleased() {
-            if (placingBarrier) {
-                console.log("Barrier added:", placingBarrier);
-                placingBarrier = null;
-            }
-        }
+    //     // Get character’s hitbox (comes from Character.js)
+    //     const hitbox = myCharacter.getCollisionBox();
 
-    </script>
-</body>
+    //     // Check collision with every barrier
+    //     for (let b of barriers) {
+    //         if (isColliding(hitbox, b)) {
+    //             // Roll back to previous safe position
+    //             myCharacter.x = previousX;
+    //             myCharacter.y = previousY;
+    //         }
+    //     }
+
+    //     // Draw character (includes hitbox if debugMode=true)
+    //     myCharacter.display(debugMode);
+
+    //     /* ----------------------------------------------
+    //        Draw barriers when debugging
+    //     ---------------------------------------------- */
+    //     if (debugMode) {
+    //         noFill();
+    //         stroke(255, 0, 0);
+    //         for (let b of barriers) {
+    //             rect(b.x, b.y, b.w, b.h);
+    //         }
+    //     }
+
+    //     // Draw the canvas border (purely visual)
+    //     noFill();
+    //     stroke(100);
+    //     rect(0, 0, width, height);
+
+    //     // Update audio panning using character % position
+    //     audioEngine.updateFromCharacter(
+    //         myCharacter.x / width,
+    //         myCharacter.y / height
+    //     );
+    // }
+
+
+    //         /* -----------------------------------------------------
+    //            BARRIER CREATION WITH MOUSE (debug mode only)
+    //         ----------------------------------------------------- */
+
+    //         // Start drawing a new barrier
+    //         function mousePressed() {
+    //             if (!debugMode) return;
+
+    //             placingBarrier = { x: mouseX, y: mouseY, w: 0, h: 0 };
+    //             barriers.push(placingBarrier);
+    //         }
+
+    //         // Resize while dragging
+    //         function mouseDragged() {
+    //             if (placingBarrier) {
+    //                 placingBarrier.w = mouseX - placingBarrier.x;
+    //                 placingBarrier.h = mouseY - placingBarrier.y;
+    //             }
+    //         }
+
+    //         // Finish barrier and print it in console for copy/paste
+    //         function mouseReleased() {
+    //             if (placingBarrier) {
+    //                 console.log("Barrier added:", placingBarrier);
+    //                 placingBarrier = null;
+    //             }
+    //         }
+
+    //     </script>
+// </body>
+
+//
 
 </html>
