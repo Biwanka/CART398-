@@ -86,8 +86,7 @@ Max becomes the expressive sound layer, turning body movement into musical gestu
 
 
 
-
-Installation Instructions
+## Installation Instructions
 
 Requirements
 
@@ -99,7 +98,9 @@ Web browser with webcam
 
 Local web server or VSCode Live Server extension
 
-Setup Steps
+
+
+# Setup steps 
 
 Install Node dependencies
 
@@ -127,7 +128,7 @@ Webcam activates automatically
 
 Interact with the system
 
-Move, gesture, jump, crouch
+Move, gesture, jump, crouch  // pose are in an image called pose_documentary
 
 Watch the character mimic your actions
 
