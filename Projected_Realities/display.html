@@ -66,8 +66,9 @@
 
             // Predefined barriers (hand-drawn from your painting)
             barriers = [
-                { x: 0, y: 357, w: 677, h: 24 }, //bottom barrier of walkway
+                // { x: 0, y: 357, w: 677, h: 25 }, //bottom barrier of walkway
                 { x: 0, y: 294, w: 682, h: 25 }, //top barrier of walkway
+                { x: 0, y: 357, w: 683, h: 80 }, // bottom barrier of walkway but the full side of the building
                 { x: 676, y: 279, w: 184, h: 189 }, //climb wall
                 { x: 460, y: 464, w: 404, h: 19 }, //bottom middle building top horizontal wall
                 { x: 398, y: 531, w: 472, h: 30 }, //bottom middle building bottom horizontal wall
@@ -77,7 +78,8 @@
                 { x: -4, y: -4, w: 1004, h: 11 }, // top of the canvas 
                 { x: 0, y: 434, w: 376, h: 13 }, //bottom left building top horizontal wall
                 { x: 0, y: 528, w: 400, h: 32 }, // bottom left building bottom horizontal wall
-                { x: 378, y: 433, w: 29, h: 127 }  //bottom left building vertical barrier 
+                { x: 378, y: 433, w: 29, h: 127 }, //bottom left building vertical barrier 
+                // { x: -14, y: 382, w: 691, h: 49 }
             ];
 
             // Audio engine handles sample slicing and sound effects
@@ -155,7 +157,7 @@
             let previousY = myCharacter.y;
 
             // Update animation & movement based on pose
-            myCharacter.update(poseLabel);
+            myCharacter.update(poseLabel, barriers);
 
             // Get character’s hitbox (comes from Character.js)
             const hitbox = myCharacter.getCollisionBox();
